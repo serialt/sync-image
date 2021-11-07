@@ -13,7 +13,7 @@ if [ -f sync.yaml ]; then
    && sudo skopeo --insecure-policy sync --src yaml --dest docker sync.yaml ${repo} \
    && sudo skopeo --insecure-policy sync --src yaml --dest docker custom_sync.yaml ${repo}
 
-   sudo skopeo login -u ${DOCKER_HUB_USERNAME} -p ${HUB_PASSWORD} \
+   sudo skopeo login -u ${HUB_USERNAME} -p ${HUB_PASSWORD} \
    && sudo skopeo --insecure-policy sync --src yaml --dest docker sync.yaml ${dockerhub} \
    && sudo skopeo --insecure-policy sync --src yaml --dest docker custom_sync.yaml ${dockerhub}
 
