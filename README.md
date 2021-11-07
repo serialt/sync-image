@@ -69,18 +69,18 @@ k8s.gcr.io/defaultbackend-amd64
 同步规则
 
 ```
-k8s.gcr.io/{image_name}  ==>  registry.cn-hangzhou.aliyuncs.com/kainstall/{image_name}
+k8s.gcr.io/{image_name}  ==>  registry.cn-hangzhou.aliyuncs.com/serialt/{image_name}
 ```
 
 **拉取镜像**
 
 ```bash
-$ docker pull registry.cn-hangzhou.aliyuncs.com/kainstall/kube-scheduler:[镜像版本号]
+$ docker pull registry.cn-hangzhou.aliyuncs.com/serialt/kube-scheduler:[镜像版本号]
 ```
 
 **搜索镜像**
 
-可通过 [阿里云镜像中心](https://cr.console.aliyun.com/cn-hangzhou/instances/images) 搜索同步镜像, 搜索字符如 `kainstall/`, `kainstall/kube-scheduler`
+可通过 [阿里云镜像中心](https://cr.console.aliyun.com/cn-hangzhou/instances/images) 搜索同步镜像, 搜索字符如 `serialt/`, `serialt/kube-scheduler`
 
 
 ## 文件介绍
