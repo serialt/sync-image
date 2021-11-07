@@ -1,5 +1,4 @@
 #!/bin/bash
-serialt
 
 hub="registry.cn-hangzhou.aliyuncs.com"
 repo="$hub/serialt"
