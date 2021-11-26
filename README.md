@@ -1,6 +1,6 @@
 # sync_image
 
-[![sync](https://github.com/lework/sync_image/actions/workflows/sync.yml/badge.svg?branch=main)](https://github.com/lework/sync_image/actions/workflows/sync.yml)
+[![sync](https://github.com/serialt/sync_image/actions/workflows/sync.yml/badge.svg?branch=main)](https://github.com/serialt/sync_image/actions/workflows/sync.yml)
 
 Synchronize container image
 
