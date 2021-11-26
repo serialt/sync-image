@@ -11,10 +11,10 @@ repo2="$hub2/serialt"
 if [ -f sync.yaml ]; then
    echo "[Start] sync......."
    
-    # sudo skopeo login -u ${HUB_USERNAME} -p ${HUB_PASSWORD} ${hub} \
-    # && sudo skopeo --all --insecure-policy sync --src yaml --dest docker sync.yaml ${repo} \
-    # && sudo skopeo --all --insecure-policy sync --src yaml --dest docker custom_sync.yaml ${repo}
-
+    sudo skopeo login -u ${HUB_USERNAME} -p ${HUB_PASSWORD} ${hub} \
+    && sudo skopeo --all --insecure-policy sync --src yaml --dest docker sync.yaml ${repo} \
+    && sudo skopeo --all --insecure-policy sync --src yaml --dest docker custom_sync.yaml ${repo}
+    sleep 3
     sudo skopeo login -u ${HUB_USERNAME} -p ${HUB_PASSWORD} ${hub2} \
     && sudo skopeo --all --insecure-policy sync --src yaml --dest docker sync.yaml ${repo2} \
     && sudo skopeo --all --insecure-policy sync --src yaml --dest docker custom_sync.yaml ${repo2}
