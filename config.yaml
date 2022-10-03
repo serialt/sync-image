@@ -16,7 +16,7 @@ images:
     - coreos/flannel
     - cephcsi/cephcsi
     - prometheus/prometheus
-    - prometheus/alertmanager
+    #- prometheus/alertmanager
     - prometheus/pushgateway
     - prometheus/blackbox-exporter
     - prometheus/node-exporter
