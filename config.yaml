@@ -26,6 +26,9 @@ images:
     - prometheus-operator/prometheus-config-reloader
     - prometheus-operator/prometheus-operator
     - brancz/kube-rbac-proxy
+    - jetstack/cert-manager-webhook
+    - jetstack/cert-manager-controller
+    - jetstack/cert-manager-cainjector
   k8s.gcr.io:
     - conformance
     - dns/k8s-dns-node-cache
