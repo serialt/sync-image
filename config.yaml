@@ -56,3 +56,7 @@ images:
   docker.io:
     - serialt/rocky
     - serialt/alma
+    - calico/cni
+    - calico/pod2daemon-flexvol
+    - calico/kube-controllers
+    - calico/node
