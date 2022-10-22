@@ -237,6 +237,7 @@ def get_docker_io_tags(image, limit=5):
             continue
 
         tags.append(t)
+    return tags
 
 
 def get_repo_elastic_tags(image, limit=5):

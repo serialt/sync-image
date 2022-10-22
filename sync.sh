@@ -12,8 +12,8 @@ if [ -f sync.yaml ]; then
    echo "[Start] sync......."
    
     sudo skopeo login -u ${HUB_USERNAME} -p ${HUB_PASSWORD} ${hub} \
-    && sudo skopeo --insecure-policy sync --src yaml --dest docker sync.yaml ${repo} \
-    && sudo skopeo --insecure-policy sync --src yaml --dest docker custom_sync.yaml ${repo}
+    && sudo skopeo --override-arch amd64 --override-arch arm64 --insecure-policy sync --src yaml --dest docker sync.yaml ${repo} \
+    && sudo skopeo --override-arch amd64 --override-arch arm64 --insecure-policy sync --src yaml --dest docker custom_sync.yaml ${repo}
     sleep 3
     sudo skopeo login -u ${HUB_USERNAME} -p ${HUB_PASSWORD} ${hub2} \
     && sudo skopeo  --insecure-policy sync --src yaml --dest docker sync.yaml ${repo2} \
