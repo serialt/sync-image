@@ -17,7 +17,10 @@ def is_exclude_tag(tag):
     :param tag:
     :return:
     """
-    excludes = ['alpha', 'beta', 'rc', 'amd64', 'ppc64le', 'arm64', 'arm', 's390x', 'SNAPSHOT', 'debug', 'master', 'latest', 'main']
+    excludes = [
+        'alpha', 'beta', 'rc', 'amd64', 'ppc64le', 'arm64', 'arm', 's390x',
+        'SNAPSHOT', 'debug', 'master', 'latest', 'main'
+    ]
 
     for e in excludes:
         if e.lower() in tag.lower():
@@ -26,13 +29,13 @@ def is_exclude_tag(tag):
             return True
         if len(tag) >= 40:
             return True
-        
+
     # 处理带有 - 字符的 tag
     if re.search("-\d$", tag, re.M | re.I):
         return False
     if '-' in tag:
         return True
-    
+
     return False
 
 
@@ -46,7 +49,8 @@ def get_repo_aliyun_tags(image):
     tags = []
 
     hearders = {
-        'User-Agent': 'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
+        'User-Agent':
+        'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
     }
     token_url = "https://dockerauth.cn-hangzhou.aliyuncs.com/auth?scope=repository:serialt/{image}:pull&service=registry.aliyuncs.com:cn-hangzhou:26842".format(
         image=image_name)
@@ -58,7 +62,8 @@ def get_repo_aliyun_tags(image):
         print('[Get repo token]', e)
         return tags
 
-    tag_url = "https://registry.cn-hangzhou.aliyuncs.com/v2/serialt/{image}/tags/list".format(image=image_name)
+    tag_url = "https://registry.cn-hangzhou.aliyuncs.com/v2/serialt/{image}/tags/list".format(
+        image=image_name)
     hearders['Authorization'] = 'Bearer ' + access_token
 
     try:
@@ -83,10 +88,12 @@ def get_repo_gcr_tags(image, limit=5, host="k8s.gcr.io"):
     """
 
     hearders = {
-        'User-Agent': 'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
+        'User-Agent':
+        'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
     }
 
-    tag_url = "https://{host}/v2/{image}/tags/list".format(host=host, image=image)
+    tag_url = "https://{host}/v2/{image}/tags/list".format(host=host,
+                                                           image=image)
 
     tags = []
     tags_data = []
@@ -108,10 +115,14 @@ def get_repo_gcr_tags(image, limit=5, host="k8s.gcr.io"):
             if is_exclude_tag(sha256_tag[0]):
                 continue
             tags_data.append({
-                'tag': sha256_tag[0],
-                'timeUploadedMs': sha256_data.get('timeUploadedMs')
+                'tag':
+                sha256_tag[0],
+                'timeUploadedMs':
+                sha256_data.get('timeUploadedMs')
             })
-    tags_sort_data = sorted(tags_data, key=lambda i: i['timeUploadedMs'], reverse=True)
+    tags_sort_data = sorted(tags_data,
+                            key=lambda i: i['timeUploadedMs'],
+                            reverse=True)
 
     # limit tag
     tags_limit_data = tags_sort_data[:limit]
@@ -137,10 +148,12 @@ def get_repo_quay_tags(image, limit=5):
     """
 
     hearders = {
-        'User-Agent': 'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
+        'User-Agent':
+        'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
     }
 
-    tag_url = "https://quay.io/api/v1/repository/{image}/tag/?onlyActiveTags=true&limit=100".format(image=image)
+    tag_url = "https://quay.io/api/v1/repository/{image}/tag/?onlyActiveTags=true&limit=100".format(
+        image=image)
 
     tags = []
     tags_data = []
@@ -161,12 +174,11 @@ def get_repo_quay_tags(image, limit=5):
         if is_exclude_tag(name):
             continue
 
-        tags_data.append({
-            'tag': name,
-            'start_ts': manifest.get('start_ts')
-        })
+        tags_data.append({'tag': name, 'start_ts': manifest.get('start_ts')})
 
-    tags_sort_data = sorted(tags_data, key=lambda i: i['start_ts'], reverse=True)
+    tags_sort_data = sorted(tags_data,
+                            key=lambda i: i['start_ts'],
+                            reverse=True)
 
     # limit tag
     tags_limit_data = tags_sort_data[:limit]
@@ -183,6 +195,50 @@ def get_repo_quay_tags(image, limit=5):
     return tags
 
 
+def get_docker_io_tags(image, limit=5):
+    hearders = {
+        'User-Agent':
+        'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
+    }
+    namespace_image = image.split('/')
+    tag_url = "https://hub.docker.com/v2/namespaces/{username}/repositories/{image}/tags".format(
+        username=namespace_image[0], image=namespace_image[1])
+    print(tag_url)
+
+    tags = []
+    tags_data = []
+    manifest_data = []
+
+    try:
+        tag_rep = requests.get(url=tag_url, headers=hearders)
+        tag_req_json = tag_rep.json()
+        manifest_data = tag_req_json['results']
+    except Exception as e:
+        print('[Get tag Error]', e)
+        return tags
+    for tag in manifest_data:
+        name = tag.get('name', '')
+
+        # 排除 tag
+        if is_exclude_tag(name):
+            continue
+
+        tags_data.append(name)
+
+    tags_sort_data = sorted(tags_data, key=LooseVersion, reverse=True)
+
+    # limit tag
+    tags_limit_data = tags_sort_data[:limit]
+
+    image_aliyun_tags = get_repo_aliyun_tags(namespace_image[1])
+    for t in tags_limit_data:
+        # 去除同步过的
+        if t in image_aliyun_tags:
+            continue
+
+        tags.append(t)
+
+
 def get_repo_elastic_tags(image, limit=5):
     """
     获取 elastic.io repo 最新的 tag
@@ -192,14 +248,16 @@ def get_repo_elastic_tags(image, limit=5):
     """
     token_url = "https://docker-auth.elastic.co/auth?service=token-service&scope=repository:{image}:pull".format(
         image=image)
-    tag_url = "https://docker.elastic.co/v2/{image}/tags/list".format(image=image)
+    tag_url = "https://docker.elastic.co/v2/{image}/tags/list".format(
+        image=image)
 
     tags = []
     tags_data = []
     manifest_data = []
 
     hearders = {
-        'User-Agent': 'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
+        'User-Agent':
+        'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
     }
 
     try:
@@ -262,6 +320,8 @@ def get_repo_tags(repo, image, limit=5):
         tags_data = get_repo_quay_tags(image, limit)
     elif repo == 'docker.elastic.co':
         tags_data = get_repo_elastic_tags(image, limit)
+    elif repo == "docker.io":
+        tags_data = get_docker_io_tags(image, limit)
     return tags_data
 
 
@@ -294,7 +354,7 @@ def generate_dynamic_conf():
             sync_tags = get_repo_tags(repo, image, config['last'])
             if len(sync_tags) > 0:
                 skopeo_sync_data[repo]['images'][image] = sync_tags
-               # skopeo_sync_data[repo]['images'][image].append('latest')
+            # skopeo_sync_data[repo]['images'][image].append('latest')
             else:
                 print('[{image}] no sync tag.'.format(image=image))
 

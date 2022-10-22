@@ -53,3 +53,6 @@ images:
     - coredns/coredns
   gcr.io:
     - kaniko-project/executor
+  docker.io:
+    - serialt/rocky
+    - serialt/alma
