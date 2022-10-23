@@ -60,3 +60,5 @@ images:
     - calico/pod2daemon-flexvol
     - calico/kube-controllers
     - calico/node
+    - rancher/mirrored-flannelcni-flannel-cni-plugin
+    - rancher/mirrored-flannelcni-flannel
