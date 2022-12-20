@@ -42,6 +42,7 @@ images:
     - sig-storage/csi-provisioner
     - sig-storage/csi-resizer
     - sig-storage/csi-snapshotter
+    - sig-storage/snapshot-controller
     - sig-storage/csi-attacher
   registry.k8s.io:
     - pause
