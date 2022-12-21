@@ -1,4 +1,4 @@
-last: 30
+last: 20
 images:
   docker.elastic.co:
     - elasticsearch/elasticsearch
