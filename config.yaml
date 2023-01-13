@@ -1,4 +1,4 @@
-last: 30
+last: 5
 images:
   docker.elastic.co:
     - elasticsearch/elasticsearch
@@ -44,6 +44,7 @@ images:
     - sig-storage/csi-snapshotter
     - sig-storage/snapshot-controller
     - sig-storage/csi-attacher
+    - sig-storage/livenessprobe
   registry.k8s.io:
     - pause
     - etcd
