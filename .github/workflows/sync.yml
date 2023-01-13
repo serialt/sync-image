@@ -28,12 +28,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        . /etc/os-release
-        echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-        curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key | sudo apt-key add -
-        sudo apt-get update
-        sudo apt-get -y upgrade
-        sudo apt-get -y install skopeo
+        export version=v1.10.0 && export  arch=amd64 &&  wget https://github.com/lework/skopeo-binary/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && chmod +x /usr/bin/skopeo
         skopeo --version
     - name: generate_sync_yaml
       timeout-minutes: 10
