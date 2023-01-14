@@ -45,6 +45,7 @@ images:
     - sig-storage/snapshot-controller
     - sig-storage/csi-attacher
     - sig-storage/livenessprobe
+    - build-image/kube-cross
   registry.k8s.io:
     - pause
     - etcd
