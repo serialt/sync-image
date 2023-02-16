@@ -1,4 +1,4 @@
-last: 30
+last: 5
 images:
   docker.elastic.co:
     - elasticsearch/elasticsearch
@@ -65,3 +65,4 @@ images:
     - calico/node
     - rancher/mirrored-flannelcni-flannel-cni-plugin
     - rancher/mirrored-flannelcni-flannel
+    - runmymind/docker-android-sdk
