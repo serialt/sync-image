@@ -386,7 +386,8 @@ def generate_custom_conf():
         if custom_sync_config[repo]['images'] is None:
             continue
         for image in custom_sync_config[repo]['images']:
-            image_docker_tags = get_docker_io_tags(image)
+            image_docker_tags = get_docker_io_tags(
+                os.environ['DEST_HUB_USERNAME'], image, 0)
             for tag in custom_sync_config[repo]['images'][image]:
                 if tag in image_docker_tags:
                     continue
