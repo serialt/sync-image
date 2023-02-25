@@ -4,7 +4,7 @@
 # Email         : t@imau.cc
 # Github        : https://github.com/serialt
 # Created Time  : 2023-02-16 23:45:27
-# Last modified : 2023-02-25 12:13:20
+# Last modified : 2023-02-25 13:13:21
 # FilePath      : /sync_image/.github/workflows/sync.yml
 # Other         : 
 #               : 
@@ -45,6 +45,10 @@ jobs:
         export version=v1.10.0 && export  arch=amd64 && sudo wget https://github.com/lework/skopeo-binary/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && sudo chmod +x /usr/bin/skopeo
         skopeo --version
     - name: generate_sync_yaml
+      env:
+        SRC_HUB_USERNAME: ${{ secrets.SRC_HUB_USERNAME }}
+        DEST_HUB_USERNAME: ${{ secrets.DEST_HUB_USERNAME }}
+        DEST_HUB_PASSWORD: ${{ secrets.DEST_HUB_PASSWORD }}
       timeout-minutes: 10
       run: |
         python generate_sync_yaml.py
