@@ -2,6 +2,7 @@ import os
 import re
 import yaml
 import requests
+from json import dumps as jsondumps
 from distutils.version import LooseVersion
 
 # 基本配置
@@ -37,45 +38,6 @@ def is_exclude_tag(tag):
         return True
 
     return False
-
-
-def get_repo_aliyun_tags(image):
-    """
-    获取 aliyuncs repo 最新的 tag
-    :param image:
-    :return:
-    """
-    image_name = image.split('/')[-1]
-    tags = []
-
-    hearders = {
-        'User-Agent':
-        'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
-    }
-    token_url = "https://dockerauth.cn-hangzhou.aliyuncs.com/auth?scope=repository:serialt/{image}:pull&service=registry.aliyuncs.com:cn-hangzhou:26842".format(
-        image=image_name)
-    try:
-        token_res = requests.get(url=token_url, headers=hearders)
-        token_data = token_res.json()
-        access_token = token_data['token']
-    except Exception as e:
-        print('[Get repo token]', e)
-        return tags
-
-    tag_url = "https://registry.cn-hangzhou.aliyuncs.com/v2/serialt/{image}/tags/list".format(
-        image=image_name)
-    hearders['Authorization'] = 'Bearer ' + access_token
-
-    try:
-        tag_res = requests.get(url=tag_url, headers=hearders)
-        tag_data = tag_res.json()
-        print('[aliyun tag]: ', tag_data)
-    except Exception as e:
-        print('[Get tag Error]', e)
-        return tags
-
-    tags = tag_data.get('tags', [])
-    return tags
 
 
 def get_repo_gcr_tags(image, limit=5, host="k8s.gcr.io"):
@@ -127,10 +89,11 @@ def get_repo_gcr_tags(image, limit=5, host="k8s.gcr.io"):
     # limit tag
     tags_limit_data = tags_sort_data[:limit]
 
-    image_aliyun_tags = get_repo_aliyun_tags(image)
+    image_docker_tags = get_docker_io_tags(os.environ['DEST_HUB_USERNAME'],
+                                           image, 0)
     for t in tags_limit_data:
         # 去除同步过的
-        if t['tag'] in image_aliyun_tags:
+        if t['tag'] in image_docker_tags:
             continue
 
         tags.append(t['tag'])
@@ -183,10 +146,11 @@ def get_repo_quay_tags(image, limit=5):
     # limit tag
     tags_limit_data = tags_sort_data[:limit]
 
-    image_aliyun_tags = get_repo_aliyun_tags(image)
+    image_docker_tags = get_docker_io_tags(os.environ['DEST_HUB_USERNAME'],
+                                           image, 0)
     for t in tags_limit_data:
         # 去除同步过的
-        if t['tag'] in image_aliyun_tags:
+        if t['tag'] in image_docker_tags:
             continue
 
         tags.append(t['tag'])
@@ -195,14 +159,36 @@ def get_repo_quay_tags(image, limit=5):
     return tags
 
 
-def get_docker_io_tags(image, limit=5):
+def get_docker_token(username, password):
+    baseUrl = "https://hub.docker.com/v2/users/login"
+    header = {}
+    header['Accept'] = 'application/json'
+    header['Content-Type'] = 'application/json'
+    data = jsondumps({"username": username, "password": password})
+    response = requests.post(baseUrl, data=data, headers=header)
+    dockerhub_token = ""
+    try:
+        response = response.json()
+        dockerhub_token = response['token']
+    except requests.exceptions.RequestException as e:
+        raise SystemExit(e)
+
+    return dockerhub_token
+
+
+def get_docker_io_tags(namespace, image, limit=5):
+    username = os.environ['DEST_HUB_USERNAME']
+    password = os.environ['DEST_HUB_PASSWORD']
+    token = get_docker_token(username, password)
+    this_token = "Bearer {docker_token}".format(docker_token=token)
     hearders = {
-        'User-Agent':
-        'docker/19.03.12 go/go1.13.10 git-commit/48a66213fe kernel/5.8.0-1.el7.elrepo.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/19.03.12 \(linux\))'
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json; charset=utf-8",
+        "Authorization": this_token
     }
-    namespace_image = image.split('/')
+    image_name = image.split('/')[-1]
     tag_url = "https://hub.docker.com/v2/namespaces/{username}/repositories/{image}/tags".format(
-        username=namespace_image[0], image=namespace_image[1])
+        username=namespace, image=image_name)
     print(tag_url)
 
     tags = []
@@ -215,6 +201,7 @@ def get_docker_io_tags(image, limit=5):
         manifest_data = tag_req_json['results']
     except Exception as e:
         print('[Get tag Error]', e)
+        tags = ['latest']
         return tags
     for tag in manifest_data:
         name = tag.get('name', '')
@@ -227,16 +214,22 @@ def get_docker_io_tags(image, limit=5):
 
     tags_sort_data = sorted(tags_data, key=LooseVersion, reverse=True)
 
-    # limit tag
-    tags_limit_data = tags_sort_data[:limit]
+    if limit != 0:
+        # limit tag
+        tags_limit_data = tags_sort_data[:limit]
 
-    image_aliyun_tags = get_repo_aliyun_tags(namespace_image[1])
-    for t in tags_limit_data:
-        # 去除同步过的
-        if t in image_aliyun_tags:
-            continue
+        image_docker_tags = get_docker_io_tags(os.environ['DEST_HUB_USERNAME'],
+                                               image, 0)
+        for t in tags_limit_data:
+            # 去除同步过的
+            if t in image_docker_tags:
+                continue
 
-        tags.append(t)
+            tags.append(t)
+    else:
+        tags = tags_sort_data
+
+    print('[repo tag]', tags)
     return tags
 
 
@@ -290,10 +283,11 @@ def get_repo_elastic_tags(image, limit=5):
     # limit tag
     tags_limit_data = tags_sort_data[:limit]
 
-    image_aliyun_tags = get_repo_aliyun_tags(image)
+    image_docker_tags = get_docker_io_tags(os.environ['DEST_HUB_USERNAME'],
+                                           image, 0)
     for t in tags_limit_data:
         # 去除同步过的
-        if t in image_aliyun_tags:
+        if t in image_docker_tags:
             continue
 
         tags.append(t)
@@ -319,10 +313,11 @@ def get_repo_tags(repo, image, limit=5):
         tags_data = get_repo_gcr_tags(image, limit, "registry.k8s.io")
     elif repo == 'quay.io':
         tags_data = get_repo_quay_tags(image, limit)
+    elif repo == 'docker.io':
+        tags_data = get_docker_io_tags(os.environ['SRC_HUB_USERNAME'], image,
+                                       limit)
     elif repo == 'docker.elastic.co':
         tags_data = get_repo_elastic_tags(image, limit)
-    elif repo == "docker.io":
-        tags_data = get_docker_io_tags(image, limit)
     return tags_data
 
 
@@ -392,9 +387,9 @@ def generate_custom_conf():
         if custom_sync_config[repo]['images'] is None:
             continue
         for image in custom_sync_config[repo]['images']:
-            image_aliyun_tags = get_repo_aliyun_tags(image)
+            image_docker_tags = get_docker_io_tags(image)
             for tag in custom_sync_config[repo]['images'][image]:
-                if tag in image_aliyun_tags:
+                if tag in image_docker_tags:
                     continue
                 if image not in custom_skopeo_sync_data[repo]['images']:
                     custom_skopeo_sync_data[repo]['images'][image] = [tag]

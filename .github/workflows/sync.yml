@@ -36,7 +36,7 @@ jobs:
         python generate_sync_yaml.py
     - name: sync image
       env:
-        HUB_USERNAME: ${{ secrets.HUB_USERNAME }}
-        HUB_PASSWORD: ${{ secrets.HUB_PASSWORD }}
+        HUB_USERNAME: ${{ secrets.DEST_HUB_USERNAME }}
+        HUB_PASSWORD: ${{ secrets.DEST_HUB_PASSWORD }}
       run: |
         bash sync.sh
