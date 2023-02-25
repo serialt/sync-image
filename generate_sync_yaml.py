@@ -209,8 +209,7 @@ def get_docker_io_tags(namespace, image, limit=5):
         # 排除 tag
         if is_exclude_tag(name):
             continue
-
-        tags_data.append(name)
+        tags_data.append(str(name))
 
     tags_sort_data = sorted(tags_data, key=LooseVersion, reverse=True)
 
