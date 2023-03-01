@@ -3,7 +3,7 @@ import re
 import yaml
 import requests
 from json import dumps as jsondumps
-from pip._internal.utils.packaging.version import Version
+from pip._internal.utils import packaging
 
 # 基本配置
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -211,7 +211,9 @@ def get_docker_io_tags(namespace, image, limit=5):
             continue
         tags_data.append(name)
 
-    tags_sort_data = sorted(tags_data, key=Version, reverse=True)
+    tags_sort_data = sorted(tags_data,
+                            key=packaging.version.Version,
+                            reverse=True)
 
     if limit != 0:
         # limit tag
@@ -277,7 +279,9 @@ def get_repo_elastic_tags(image, limit=5):
             continue
         tags_data.append(tag)
 
-    tags_sort_data = sorted(tags_data, key=LooseVersion, reverse=True)
+    tags_sort_data = sorted(tags_data,
+                            key=packaging.version.Version,
+                            reverse=True)
 
     # limit tag
     tags_limit_data = tags_sort_data[:limit]
