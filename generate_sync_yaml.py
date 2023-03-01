@@ -3,7 +3,7 @@ import re
 import yaml
 import requests
 from json import dumps as jsondumps
-from distutils.version import LooseVersion
+from pip._internal.utils.packaging.version import Version
 
 # 基本配置
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -211,7 +211,7 @@ def get_docker_io_tags(namespace, image, limit=5):
             continue
         tags_data.append(name)
 
-    tags_sort_data = sorted(tags_data, key=LooseVersion, reverse=True)
+    tags_sort_data = sorted(tags_data, key=Version, reverse=True)
 
     if limit != 0:
         # limit tag
