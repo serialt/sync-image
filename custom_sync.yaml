@@ -2,6 +2,8 @@ k8s.gcr.io:
   images:
     defaultbackend-amd64: 
      - '1.5'
+    build-image/kube-cross:
+     - 'v1.21.0-go1.16.15-buster.0'
 gcr.io:
   images:
     kaniko-project/executor: 
