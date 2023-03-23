@@ -382,28 +382,8 @@ def generate_custom_conf():
 
     print('[custom_sync config]', custom_sync_config)
 
-    custom_skopeo_sync_data = {}
-
-    for repo in custom_sync_config:
-        if repo not in custom_skopeo_sync_data:
-            custom_skopeo_sync_data[repo] = {'images': {}}
-        if custom_sync_config[repo]['images'] is None:
-            continue
-        for image in custom_sync_config[repo]['images']:
-            image_docker_tags = get_docker_io_tags(
-                os.environ['DEST_HUB_USERNAME'], image, 0)
-            for tag in custom_sync_config[repo]['images'][image]:
-                if tag in image_docker_tags:
-                    continue
-                if image not in custom_skopeo_sync_data[repo]['images']:
-                    custom_skopeo_sync_data[repo]['images'][image] = [tag]
-                else:
-                    custom_skopeo_sync_data[repo]['images'][image].append(tag)
-
-    print('[custom_sync data]', custom_skopeo_sync_data)
-
     with open(CUSTOM_SYNC_FILE, 'w+') as f:
-        yaml.safe_dump(custom_skopeo_sync_data, f, default_flow_style=False)
+        yaml.safe_dump(custom_sync_config, f, default_flow_style=False)
 
     print('[generate_custom_conf] done.', end='\n\n')
 
