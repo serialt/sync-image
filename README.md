@@ -6,36 +6,10 @@ Synchronize container image
 
 ## 使用
 
-仓库使用 `Github Action` 每天自动运行脚本同步镜像到阿里云。
+仓库使用 `Github Action` 每天自动运行脚本同步镜像到 `Docker Hub` 和 阿里云。
 
 动态同步的镜像列表。
 > 默认获取最新的 5 个 tag 用于同步。
-
-```
-docker.elastic.co/elasticsearch/elasticsearch
-docker.elastic.co/kibana/kibana
-docker.elastic.co/logstash/logstash
-docker.elastic.co/beats/filebeat
-docker.elastic.co/beats/heartbeat
-docker.elastic.co/beats/packetbeat
-docker.elastic.co/beats/auditbeat
-docker.elastic.co/beats/journalbeat
-docker.elastic.co/beats/metricbeat
-docker.elastic.co/apm/apm-server
-docker.elastic.co/app-search/app-search
-```
-
-```
-quay.io/coreos/flannel
-quay.io/cephcsi/cephcsi
-quay.io/prometheus/prometheus
-quay.io/prometheus/alertmanager
-quay.io/prometheus/pushgateway
-quay.io/prometheus/blackbox-exporter
-quay.io/prometheus/node-exporter
-quay.io/prometheus-operator/prometheus-config-reloader
-quay.io/prometheus-operator/prometheus-operator
-```
 
 ```
 k8s.gcr.io/etcd
@@ -68,19 +42,28 @@ k8s.gcr.io/defaultbackend-amd64
 
 同步规则
 
-```
+```bash
+# docker hub
+k8s.gcr.io/{image_name}  ==>  docker.io/serialt/{image_name}
+
+# aliyun
 k8s.gcr.io/{image_name}  ==>  registry.cn-hangzhou.aliyuncs.com/serialt/{image_name}
 ```
 
 **拉取镜像**
 
 ```bash
-$ docker pull registry.cn-hangzhou.aliyuncs.com/serialt/kube-scheduler:[镜像版本号]
+#  docker hub
+$ docker pull serialt/kube-scheduler:[image_tag]
+
+# aliyun
+$ docker pull registry.cn-hangzhou.aliyuncs.com/serialt/kube-scheduler:[image_tag]
 ```
 
 **搜索镜像**
 
-可通过 [阿里云镜像中心](https://cr.console.aliyun.com/cn-hangzhou/instances/images) 搜索同步镜像, 搜索字符如 `serialt/`, `serialt/kube-scheduler`
+[Docker Hub](https://hub.docker.com/u/serialt)
+
 
 
 ## 文件介绍
