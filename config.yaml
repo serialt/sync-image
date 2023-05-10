@@ -33,8 +33,6 @@ images:
     - conformance
     - dns/k8s-dns-node-cache
     - metrics-server/metrics-server
-    - ingress-nginx/controller
-    - ingress-nginx/kube-webhook-certgen
     - kube-state-metrics/kube-state-metrics
     - prometheus-adapter/prometheus-adapter
   registry.k8s.io:
@@ -48,6 +46,8 @@ images:
     - sig-storage/snapshot-controller
     - sig-storage/csi-attacher
     - sig-storage/livenessprobe
+    - defaultbackend-amd64
+    - defaultbackend-arm64
     - pause
     - etcd
     - kube-proxy
