@@ -37,6 +37,9 @@ images:
     - ingress-nginx/kube-webhook-certgen
     - kube-state-metrics/kube-state-metrics
     - prometheus-adapter/prometheus-adapter
+  registry.k8s.io:
+    - ingress-nginx/controller
+    - ingress-nginx/kube-webhook-certgen
     - sig-storage/nfs-subdir-external-provisioner
     - sig-storage/csi-node-driver-registrar
     - sig-storage/csi-provisioner
@@ -45,7 +48,6 @@ images:
     - sig-storage/snapshot-controller
     - sig-storage/csi-attacher
     - sig-storage/livenessprobe
-  registry.k8s.io:
     - pause
     - etcd
     - kube-proxy
