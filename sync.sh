@@ -1,4 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# ***********************************************************************
+# Description   : Blue Planet
+# Author        : serialt
+# Email         : tserialt@gmail.com
+# Created Time  : 2022-10-03 21:43:04
+# Last modified : 2023-05-20 17:48:27
+# FilePath      : /sync_image/sync.sh
+# Other         : 
+#               : 
+# 
+# 
+# 
+# ***********************************************************************
+
+
+
 
 hub="docker.io"
 repo="$hub/${DEST_HUB_USERNAME}"
