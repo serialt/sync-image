@@ -1,15 +1,18 @@
 k8s.gcr.io:
   images:
     build-image/kube-cross:
-     - 'v1.21.0-go1.16.15-buster.0'
+    - 'v1.21.0-go1.16.15-buster.0'
 registry.k8s.io:
   images:
     ingress-nginx/kube-webhook-certgen:
-     - 'v20220916-gd32f8c343'
+    - 'v20220916-gd32f8c343'
+    coredns/coredns:
+    - 'v1.9.3'
+    
 gcr.io:
   images:
     kaniko-project/executor: 
-     - 'latest'
-     - 'v1.8.1'
-     - 'debug'
-     - 'v1.8.1-debug'
+    - 'latest'
+    - 'v1.8.1'
+    - 'debug'
+    - 'v1.8.1-debug'
