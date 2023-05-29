@@ -10,7 +10,7 @@ registry.k8s.io:
     - 'v1.9.3'
 ghcr.io:
   images:
-    kube-vip/kube-vip
+    kube-vip/kube-vip:
     - 'v0.6.0'
     - 'v0.5.12'
     - 'v0.5.11'
