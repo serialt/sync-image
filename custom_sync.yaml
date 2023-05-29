@@ -22,3 +22,32 @@ gcr.io:
     - 'v1.8.1'
     - 'debug'
     - 'v1.8.1-debug'
+mcr.microsoft.com:
+  images:
+    devcontainers/base:
+    - "dev"
+    - "dev-alpine"
+    - "dev-alpine3.17"
+    - "dev-alpine-3.17"
+    - "dev-alpine3.16"
+    - "dev-alpine-3.16"
+    - "dev-alpine3.15"
+    - "dev-alpine-3.15"
+    - "dev-ubuntu"
+    - "dev-ubuntu22.04"
+    - "dev-ubuntu-22.04"
+    - "dev-ubuntu20.04"
+    - "dev-ubuntu-20.04"
+    - "dev-ubuntu18.04"
+    - "dev-ubuntu-18.04"
+    - "dev-debian11"
+    - "dev-debian-11"
+    - "dev-debian"
+    devcontainers/go:
+    - "dev-1.19"
+    - "dev-1.19-bullseye"
+    - "dev-1.20"
+    - "dev-1.20-bullseye"
+    - "dev-1.18"
+    - "dev-1.18-bullseye"
+
