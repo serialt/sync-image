@@ -37,13 +37,13 @@ ghcr.io:
     - '5.4.4'
     - '5.4.3'
     - '5.4.2'
-gcr.io:
-  images:
-    kaniko-project/executor: 
-    - 'latest'
-    - 'v1.8.1'
-    - 'debug'
-    - 'v1.8.1-debug'
+# gcr.io:
+#   images:
+#     kaniko-project/executor: 
+#     - 'latest'
+#     - 'v1.8.1'
+#     - 'debug'
+#     - 'v1.8.1-debug'
 mcr.microsoft.com:
   images:
     devcontainers/base:

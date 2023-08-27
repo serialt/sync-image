@@ -55,8 +55,8 @@ images:
     - kube-scheduler
     - kube-controller-manager
     - coredns/coredns
-  gcr.io:
-    - kaniko-project/executor
+  # gcr.io:
+  #   - kaniko-project/executor
   docker.io:
     - serialt/rocky
     - serialt/alma
