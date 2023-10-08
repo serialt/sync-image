@@ -4,7 +4,7 @@
 # Email         : t@imau.cc
 # Github        : https://github.com/serialt
 # Created Time  : 2023-02-16 23:45:27
-# Last modified : 2023-04-12 18:31:59
+# Last modified : 2023-10-08 21:47:26
 # FilePath      : /sync_image/.github/workflows/sync.yml
 # Other         : 
 #               : 
@@ -25,33 +25,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  sync-aliyun:
+  sync:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.9]
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v4
+    - name: Set up Go 
+      uses: actions/setup-go@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        go-version: '>=1.21.0'
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
         export version=v1.10.0 && export  arch=amd64 && sudo wget https://github.com/lework/skopeo-binary/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && sudo chmod +x /usr/bin/skopeo
         skopeo --version
+        go install github.com/serialt/sync-image@latest
     - name: generate_sync_yaml
       env:
         SRC_HUB_USERNAME: ${{ secrets.SRC_HUB_USERNAME }}
         DEST_HUB_USERNAME: ${{ secrets.DEST_HUB_USERNAME }}
         DEST_HUB_PASSWORD: ${{ secrets.DEST_HUB_PASSWORD }}
+        MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
       timeout-minutes: 10
       run: |
-        python generate_sync_yaml.py
+        sync-image
     - name: sync image
       env:
         SRC_HUB_USERNAME: ${{ secrets.SRC_HUB_USERNAME }}
