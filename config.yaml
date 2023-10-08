@@ -1,4 +1,25 @@
-last: 5
+last: 10
+mcrLast: 50
+customfile: custom_sync.yaml
+autoSyncfile: sync.yaml
+exclude:
+  - 'alpha'
+  - 'beta' 
+  - 'rc' 
+  - 'amd64'
+  - 'ppc64le' 
+  - 'arm64' 
+  - 'arm' 
+  - 's390x'   
+  - 'SNAPSHOT' 
+  - 'snapshot'
+  - 'debug' 
+  - 'master' 
+  - 'latest' 
+  - 'main'
+  - 'sig'
+  - 'sha'
+  - 'mips'
 images:
   docker.elastic.co:
     - elasticsearch/elasticsearch
@@ -36,6 +57,9 @@ images:
     - kube-state-metrics/kube-state-metrics
     - prometheus-adapter/prometheus-adapter
   registry.k8s.io:
+    - sig-storage/local-volume-provisioner
+    - metrics-server/metrics-server
+    - defaultbackend
     - ingress-nginx/controller
     - ingress-nginx/kube-webhook-certgen
     - sig-storage/nfs-subdir-external-provisioner
@@ -44,6 +68,8 @@ images:
     - sig-storage/csi-resizer
     - sig-storage/csi-snapshotter
     - sig-storage/snapshot-controller
+    - sig-storage/snapshot-validation-webhook
+    - sig-storage/nfsplugin
     - sig-storage/csi-attacher
     - sig-storage/livenessprobe
     - defaultbackend-amd64
@@ -55,9 +81,20 @@ images:
     - kube-scheduler
     - kube-controller-manager
     - coredns/coredns
-  # gcr.io:
-  #   - kaniko-project/executor
+    - build-image/kube-cross
+  gcr.io:
+    - kaniko-project/executor
+  ghcr.io:
+    - k3d-io/k3d-tools
+    - k3d-io/k3d-proxy
+    - kube-vip/kube-vip
+  mcr.microsoft.com:
+    - devcontainers/base
+    - devcontainers/go
   docker.io:
+    - flannel/flannel
+    - flannel/flannel-cni-plugin
+    - calico/kube-controllers
     - serialt/rocky
     - serialt/alma
     - calico/cni

@@ -1,43 +1,96 @@
-# sync_image
+# sync-image
+[![sync](https://github.com/serialt/sync-image/actions/workflows/sync.yml/badge.svg?branch=main)](https://github.com/serialt/sync-image/actions/workflows/sync.yml)
 
-[![sync](https://github.com/serialt/sync_image/actions/workflows/sync.yml/badge.svg?branch=main)](https://github.com/serialt/sync_image/actions/workflows/sync.yml)
 
-Synchronize container image
+> Synchronize container image
 
-## 使用
+### 项目介绍
+* 基于Go重写`sync-image`,感谢[lework](https://github.com/lework/sync_image)。
+* 支持GCR、MCR、elastic、quay.io、docker.io、registry.k8s.io、ghcr.io 镜像同步到 docker hub 和阿里云。
 
-仓库使用 `Github Action` 每天自动运行脚本同步镜像到 `Docker Hub` 和 阿里云。
-
-动态同步的镜像列表。
-> 默认获取最新的 5 个 tag 用于同步。
-
+环境变量
+```shell
+DEST_HUB_USERNAME
+DEST_HUB_PASSWORD
+MY_GITHUB_TOKEN
 ```
-k8s.gcr.io/etcd
-k8s.gcr.io/kube-proxy
-k8s.gcr.io/kube-apiserver
-k8s.gcr.io/kube-scheduler
-k8s.gcr.io/kube-controller-manager
-k8s.gcr.io/coredns/coredns
-k8s.gcr.io/dns/k8s-dns-node-cache
-k8s.gcr.io/ingress-nginx/controller
-k8s.gcr.io/metrics-server/metrics-server
-k8s.gcr.io/ingress-nginx/kube-webhook-certgen
-k8s.gcr.io/kube-state-metrics/kube-state-metrics
-k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner
-k8s.gcr.io/sig-storage/csi-node-driver-registrar
-k8s.gcr.io/sig-storage/csi-provisioner
-k8s.gcr.io/sig-storage/csi-resizer
-k8s.gcr.io/sig-storage/csi-snapshotter
-k8s.gcr.io/sig-storage/csi-attacher
+
+配置文件
+config.yaml
+
+```yaml
+# 普通镜像同步个数
+last: 10  
+# mcr镜像同步个数
+mcrLast: 50
+# 自定义的skopeo同步镜像配置文件
+customfile: custom_sync.yaml
+# 动态生成的skopeo同步镜像配置文件
+autoSyncfile: sync.yaml
+# tag中含有以下关键字不同步
+exclude:
+  - 'alpha'
+  - 'beta' 
+  - 'rc' 
+  - 'amd64'
+  - 'ppc64le' 
+  - 'arm64' 
+  - 'arm' 
+  - 's390x'   
+  - 'SNAPSHOT' 
+  - 'snapshot'
+  - 'debug' 
+  - 'master' 
+  - 'latest' 
+  - 'main'
+  - 'sig'
+  - 'sha'
+  - 'mips'
+images:
+  docker.elastic.co:
+    - elasticsearch/elasticsearch
+    - app-search/app-search
+  quay.io:
+    - coreos/flannel
+    - ceph/ceph
+    - cephcsi/cephcsi
+  k8s.gcr.io:
+    - metrics-server/metrics-server
+    - kube-state-metrics/kube-state-metrics
+  registry.k8s.io:
+    - metrics-server/metrics-server
+    - pause
+    - etcd
+    - coredns/coredns
+    - build-image/kube-cross
+  gcr.io:
+    - kaniko-project/executor
+  ghcr.io:
+    - k3d-io/k3d-tools
+    - k3d-io/k3d-proxy
+    - kube-vip/kube-vip
+  mcr.microsoft.com:
+    - devcontainers/base
+    - devcontainers/go
+  docker.io:
+    - flannel/flannel
+    - flannel/flannel-cni-plugin
+    - calico/kube-controllers
+
 ```
 
 
 静态同步的镜像列表。
 > 使用指定的 tag 用于同步。
-
-```
-k8s.gcr.io/pause
-k8s.gcr.io/defaultbackend-amd64
+`custom_sync.yaml`
+```yaml
+ghcr.io:
+  images:
+    kube-vip/kube-vip:
+    - 'v0.6.0'
+    - 'v0.4.4'
+    k3d-io/k3d-tools:
+    - '5.5.2'
 ```
 
 同步规则
@@ -66,9 +119,8 @@ $ docker pull registry.cn-hangzhou.aliyuncs.com/serialt/kube-scheduler:[image_ta
 
 
 
-## 文件介绍
+### 文件介绍
 
-- `config.yaml`: 供 `generate_sync_yaml.py` 脚本使用，此文件配置了需要动态(获取`last`个最新的版本)同步的镜像列表。
+- `config.yaml`: 供 `sync-image` 使用，此文件配置了需要动态(获取`last`个最新的版本)同步的镜像列表。
 - `custom_sync.yaml`: 自定义的 [`skopeo`](https://github.com/containers/skopeo) 同步源配置文件。
-- `generate_sync_yaml.py`: 根据配置，动态生成 [`skopeo`](https://github.com/containers/skopeo) 同步源配置文件。
 - `sync.sh`: 用于执行同步操作。
