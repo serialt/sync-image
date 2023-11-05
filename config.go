@@ -18,6 +18,5 @@ type Config struct {
 	Last         int                 `yaml:"last"`
 	McrLast      int                 `yaml:"mcrLast"`
 	Images       map[string][]string `yaml:"images"`
-	Customfile   string              `yaml:"customfile"`
 	AutoSyncfile string              `yaml:"autoSyncfile"`
 }

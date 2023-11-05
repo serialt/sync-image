@@ -1,6 +1,5 @@
 last: 10
 mcrLast: 50
-customfile: custom_sync.yaml
 autoSyncfile: sync.yaml
 exclude:
   - 'alpha'

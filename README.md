@@ -23,8 +23,6 @@ config.yaml
 last: 10  
 # mcr镜像同步个数
 mcrLast: 50
-# 自定义的skopeo同步镜像配置文件
-customfile: custom_sync.yaml
 # 动态生成的skopeo同步镜像配置文件
 autoSyncfile: sync.yaml
 # tag中含有以下关键字不同步
