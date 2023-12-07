@@ -3,7 +3,7 @@
 # Author        : serialt
 # Email         : tserialt@gmail.com
 # Created Time  : 2023-02-16 23:45:27
-# Last modified : 2023-11-05 17:25:31
+# Last modified : 2023-12-07 15:32:28
 # FilePath      : /sync-image/.github/workflows/sync.yml
 # Other         : 
 #               : 
@@ -34,7 +34,7 @@ jobs:
         go-version: '>=1.21.0'
     - name: Install dependencies
       run: |
-        export version=v1.10.0 && export  arch=amd64 && sudo wget https://github.com/lework/skopeo-binary/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && sudo chmod +x /usr/bin/skopeo
+        export version=v1.13.3 && export  arch=amd64 && sudo wget https://github.com/serialt/skopeo/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && sudo chmod +x /usr/bin/skopeo
         skopeo --version
         go install github.com/serialt/sync-image@latest
     - name: generate_sync_yaml
