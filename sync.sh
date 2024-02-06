@@ -4,7 +4,7 @@
 # Author        : serialt
 # Email         : tserialt@gmail.com
 # Created Time  : 2022-10-03 21:43:04
-# Last modified : 2024-02-06 17:44:17
+# Last modified : 2024-02-06 17:46:05
 # FilePath      : /sync-image/sync.sh
 # Other         : 
 #               : 
@@ -32,7 +32,7 @@ if [ -f sync.yaml ]; then
     && sudo skopeo --insecure-policy sync -a --src yaml --dest docker sync.yaml ${repo} \
     && sudo skopeo --insecure-policy sync -a --src yaml --dest docker custom_sync.yaml ${repo}
     sleep 3
-    sudo skopeo login -u ${DEST_APP_HUB_USERNAME} -p ${DEST_HUB_PASSWORD} ${hub} \
+    sudo skopeo login -u ${DEST_APP_HUB_USERNAME} -p ${DEST_APP_HUB_PASSWORD} ${hub} \
     && sudo skopeo --insecure-policy sync -a --src yaml --dest docker sync.yaml ${app_repo} \
     && sudo skopeo --insecure-policy sync -a --src yaml --dest docker custom_sync.yaml ${app_repo}
     sleep 3
