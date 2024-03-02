@@ -3,7 +3,7 @@
 # Author        : serialt
 # Email         : tserialt@gmail.com
 # Created Time  : 2023-02-16 23:45:27
-# Last modified : 2024-02-06 22:14:05
+# Last modified : 2024-03-02 08:33:31
 # FilePath      : /sync-image/.github/workflows/sync.yml
 # Other         : 
 #               : 
@@ -19,7 +19,7 @@ on:
       - master
       - main
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "0 3 */3 * *"
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
