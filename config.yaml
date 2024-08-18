@@ -19,6 +19,12 @@ exclude:
   - 'sig'
   - 'sha'
   - 'mips'
+  - 'server'
+  - 'nanoserver'
+  - 'windows'
+  - 'build'
+  - 'HEAD'
+  - 'unstable'
 images:
   docker.elastic.co:
     - elasticsearch/elasticsearch
@@ -103,3 +109,33 @@ images:
     - rancher/mirrored-flannelcni-flannel-cni-plugin
     - rancher/mirrored-flannelcni-flannel
     - runmymind/docker-android-sdk
+    - flannel/flannel
+    - flannel/flannel-cni-plugin
+    - bitnami/redis
+    - library/alpine
+    - library/debian
+    - library/ubuntu
+    - library/golang
+    - library/python
+    - library/node
+    - library/openjdk
+    - library/maven
+    - library/nginx 
+    - library/postgres
+    - library/busybox
+    - library/caddy
+    - bitnami/rabbitmq
+    - bitnami/redis
+    - grafana/grafana
+    - grafana/loki
+    - grafana/grafana-image-renderer
+    - grafana/promtail
+    - grafana/mimir
+    - grafana/tempo
+    - hashicorp/vault
+    - library/consul
+    - gitlab/gitlab-runner
+    - rancher/mirrored-metrics-server
+    - sonatype/nexus3
+    - dpage/pgadmin4
+

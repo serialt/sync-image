@@ -2,8 +2,5 @@ ghcr.io:
   images:
     kube-vip/kube-vip:
     - 'v0.6.0'
-    - 'v0.4.4'
-    k3d-io/k3d-tools:
-    - '5.5.2'
 
 
