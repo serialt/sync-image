@@ -1,4 +1,4 @@
-last: 3
+last: 2
 mcrLast: 2
 autoSyncfile: sync.yaml
 exclude:
@@ -98,33 +98,33 @@ images:
     # - devcontainers/base
     - devcontainers/go
   docker.io:
-    - serialt/rocky
-    - serialt/alma
-    - bitnami/redis
+    # - serialt/rocky
+    # - serialt/alma
+    # - bitnami/redis
     - library/alpine
     - library/debian
-    - library/ubuntu
+    # - library/ubuntu
     - library/golang
-    - library/python
-    - library/node
-    - library/openjdk
-    - library/maven
+    # - library/python
+    # - library/node
+    # - library/openjdk
+    # - library/maven
     - library/nginx 
-    - library/postgres
-    - library/busybox
-    - library/caddy
-    - bitnami/rabbitmq
-    - bitnami/redis
-    - grafana/grafana
-    - grafana/loki
-    - grafana/grafana-image-renderer
-    - grafana/promtail
-    - grafana/mimir
-    - grafana/tempo
-    - hashicorp/vault
-    - library/consul
-    - gitlab/gitlab-runner
-    - rancher/mirrored-metrics-server
-    - sonatype/nexus3
-    - dpage/pgadmin4
+    # - library/postgres
+    # - library/busybox
+    # - library/caddy
+    # - bitnami/rabbitmq
+    # - bitnami/redis
+    # - grafana/grafana
+    # - grafana/loki
+    # - grafana/grafana-image-renderer
+    # - grafana/promtail
+    # - grafana/mimir
+    # - grafana/tempo
+    # - hashicorp/vault
+    # - library/consul
+    # - gitlab/gitlab-runner
+    # - rancher/mirrored-metrics-server
+    # - sonatype/nexus3
+    # - dpage/pgadmin4
 

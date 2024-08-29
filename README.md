@@ -4,9 +4,13 @@
 
 > Synchronize container image
 
+>由于 docker hub 限制长时间拉取镜像，一次性同步镜像不能太多
+
+
 ### 项目介绍
 * 基于Go重写`sync-image`,感谢[lework](https://github.com/lework/sync_image)。
 * 支持GCR、MCR、elastic、quay.io、docker.io、registry.k8s.io、ghcr.io 镜像同步到 docker hub 和阿里云。
+
 
 环境变量
 ```shell
@@ -114,6 +118,50 @@ $ docker pull registry.cn-hangzhou.aliyuncs.com/serialt/kube-scheduler:[image_ta
 **搜索镜像**
 
 [Docker Hub](https://hub.docker.com/u/serialt)
+
+使用skopeo查看镜tag
+[skopeo](https://github.com/serialt/skopeo/releases)
+```shell
+skopeo list-tags  docker://registry.cn-hangzhou.aliyuncs.com/seri
+alt/python
+```
+支持镜像
+* alpine
+* debian
+* redis
+* cosul
+* gitlab-ce
+* gitlab-runner
+* golang
+* python 
+* postgres
+* mysql
+* nginx
+* node-exporter
+* prometheus
+* grafana
+* zentao
+* vault
+* nexus3
+* minio
+* jenkins 
+* pgadmin4
+* eclipse-temurin
+* maven
+* vscode
+* gitea
+* almalinux
+* rockylinux
+* caddy
+* sonarqube
+* mariadb
+* traefik
+* rabbitmq
+* node
+* busybox
+* memcached
+* bash
+* loki
 
 
 
