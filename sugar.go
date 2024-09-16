@@ -448,9 +448,12 @@ func SkopeoSync(sHub DockerHub, username, password, url, skopeoFile string) {
 	destHub := url + "/" + username
 	iCMD = fmt.Sprintf("skopeo --insecure-policy sync -a  --src yaml --dest docker %s %s", skopeoFile, destHub)
 
-	stdout, stderr, _ := RunCommandWithTimeout(900, iCMD)
-	fmt.Println("stdout: ", stdout)
-	fmt.Println("stderr: ", stderr)
+	result, err = RunCMD(iCMD)
+	if err != nil {
+		slog.Error("sync image failed", "file", skopeoFile, "destHub", destHub, "err", err)
+		fmt.Println(result)
+		return
+	}
 	slog.Info("skopeo sync succeed", "url", url, "user", username, "file", skopeoFile)
 	fmt.Println(result)
 
