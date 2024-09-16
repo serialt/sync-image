@@ -4,19 +4,25 @@
 
 > Synchronize container image
 
->由于 docker hub 限制长时间拉取镜像，一次性同步镜像不能太多
-
-
 ### 项目介绍
+
 * 基于Go重写`sync-image`,感谢[lework](https://github.com/lework/sync_image)。
 * 支持GCR、MCR、elastic、quay.io、docker.io、registry.k8s.io、ghcr.io 镜像同步到 docker hub 和阿里云。
 
 
 环境变量
 ```shell
-DEST_HUB_USERNAME
-DEST_HUB_PASSWORD
-MY_GITHUB_TOKEN
+# 登录dockerhub用户，用于拉取镜像，多个账号以[,] 英文逗号隔开
+DOCKER_HUB_USERNAME=user1,user2
+# 登录dockerhub用户密码或者token，用于拉取镜像，多个账号以[,] 英文逗号隔开
+DOCKER_HUB_PASSWORD=pass1,pass2
+
+# 目的镜像仓库的地址
+HUB_URL=registry.cn-hangzhou.aliyuncs.com,registry.cn-shanghai.aliyuncs.com,
+HUB_USERNAME=user1,user2
+HUB_PASSWORD=pass1,pass2
+# 用于访问ghcr获取镜像的tag
+MY_GITHUB_TOKEN=xxxx
 ```
 
 配置文件
@@ -25,10 +31,7 @@ config.yaml
 ```yaml
 # 普通镜像同步个数
 last: 10  
-# mcr镜像同步个数
-mcrLast: 50
-# 动态生成的skopeo同步镜像配置文件
-autoSyncfile: sync.yaml
+workDir: "./workdir"
 # tag中含有以下关键字不同步
 exclude:
   - 'alpha'
@@ -84,7 +87,7 @@ images:
 
 静态同步的镜像列表。
 > 使用指定的 tag 用于同步。
-`custom_sync.yaml`
+`./workdir/custom_sync.yaml`
 ```yaml
 ghcr.io:
   images:
@@ -122,8 +125,7 @@ $ docker pull registry.cn-hangzhou.aliyuncs.com/serialt/kube-scheduler:[image_ta
 使用skopeo查看镜tag
 [skopeo](https://github.com/serialt/skopeo/releases)
 ```shell
-skopeo list-tags  docker://registry.cn-hangzhou.aliyuncs.com/seri
-alt/python
+skopeo list-tags  docker://registry.cn-hangzhou.aliyuncs.com/serialt/alpine
 ```
 支持镜像
 * alpine
@@ -172,7 +174,4 @@ alt/python
 - `sync.sh`: 用于执行同步操作。
 
 
-### get tag
-https://github.com/heroku/docker-registry-client 支持的repo
-* https://registry-1.docker.io
-* 
+

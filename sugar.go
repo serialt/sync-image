@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,6 +13,8 @@ import (
 	"slices"
 	"sort"
 	"strings"
+	"syscall"
+	"time"
 
 	"github.com/heroku/docker-registry-client/registry"
 	"github.com/serialt/crab"
@@ -444,12 +447,10 @@ func SkopeoSync(sHub DockerHub, username, password, url, skopeoFile string) {
 
 	destHub := url + "/" + username
 	iCMD = fmt.Sprintf("skopeo --insecure-policy sync -a  --src yaml --dest docker %s %s", skopeoFile, destHub)
-	result, err = RunCMD(iCMD)
-	if err != nil {
-		slog.Error("sync image failed", "file", skopeoFile, "destHub", destHub, "err", err)
-		fmt.Println(result)
-		return
-	}
+
+	stdout, stderr, _ := RunCommandWithTimeout(900, iCMD)
+	fmt.Println("stdout: ", stdout)
+	fmt.Println("stderr: ", stderr)
 	slog.Info("skopeo sync succeed", "url", url, "user", username, "file", skopeoFile)
 	fmt.Println(result)
 
@@ -541,4 +542,30 @@ func RunCMD(str string, workDir ...string) (string, error) {
 		return string(result), err
 	}
 	return string(result), nil
+}
+
+func RunCommandWithTimeout(timeout int, command string, args ...string) (stdout, stderr string, isKilled bool) {
+	var stdoutBuf, stderrBuf bytes.Buffer
+	cmd := exec.Command(command, args...)
+
+	cmd.Stdout = &stdoutBuf
+	cmd.Stderr = &stderrBuf
+	cmd.Start()
+	done := make(chan error)
+	go func() {
+		done <- cmd.Wait()
+	}()
+	after := time.After(time.Duration(timeout) * time.Second)
+	select {
+	case <-after:
+		cmd.Process.Signal(syscall.SIGINT)
+		time.Sleep(10 * time.Millisecond)
+		cmd.Process.Kill()
+		isKilled = true
+	case <-done:
+		isKilled = false
+	}
+	stdout = string(bytes.TrimSpace(stdoutBuf.Bytes())) // Remove \n
+	stderr = string(bytes.TrimSpace(stderrBuf.Bytes())) // Remove \n
+	return
 }

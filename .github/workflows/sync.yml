@@ -31,7 +31,7 @@ jobs:
     - name: Set up Go 
       uses: actions/setup-go@v5
       with:
-        go-version: '>=1.21.0'
+        go-version: '>=1.23.0'
     - name: Install dependencies
       run: |
         export version=v1.13.3 && export  arch=amd64 && sudo wget https://github.com/serialt/skopeo/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && sudo chmod +x /usr/bin/skopeo
