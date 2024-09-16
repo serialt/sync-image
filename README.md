@@ -17,7 +17,7 @@ DOCKER_HUB_USERNAME=user1,user2
 # 登录dockerhub用户密码或者token，用于拉取镜像，多个账号以[,] 英文逗号隔开
 DOCKER_HUB_PASSWORD=pass1,pass2
 
-# 目的镜像仓库的地址
+# 目的镜像仓库的地址,多个账号以[,] 英文逗号隔开
 HUB_URL=registry.cn-hangzhou.aliyuncs.com,registry.cn-shanghai.aliyuncs.com,
 HUB_USERNAME=user1,user2
 HUB_PASSWORD=pass1,pass2
