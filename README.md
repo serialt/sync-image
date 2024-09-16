@@ -170,3 +170,9 @@ alt/python
 - `config.yaml`: 供 `sync-image` 使用，此文件配置了需要动态(获取`last`个最新的版本)同步的镜像列表。
 - `custom_sync.yaml`: 自定义的 [`skopeo`](https://github.com/containers/skopeo) 同步源配置文件。
 - `sync.sh`: 用于执行同步操作。
+
+
+### get tag
+https://github.com/heroku/docker-registry-client 支持的repo
+* https://registry-1.docker.io
+* 

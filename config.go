@@ -13,10 +13,29 @@ var (
 	tmpDockerToken string
 )
 
+type SyncClient struct {
+	Hub   DockerHub
+	Index int64
+}
+type RepositoryInfo struct {
+	Repository string   `json:"Repository"`
+	Tags       []string `json:"Tags"`
+}
+
+type DockerHub struct {
+	URL      string `yaml:"url"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+}
+
 type Config struct {
 	Exclude      []string            `yaml:"exclude"`
 	Last         int                 `yaml:"last"`
 	McrLast      int                 `yaml:"mcrLast"`
 	Images       map[string][]string `yaml:"images"`
 	AutoSyncfile string              `yaml:"autoSyncfile"`
+	DockerHub    []DockerHub         `yaml:"dockerHub"`
+	Hub          []DockerHub         `yaml:"hub"`
+	WorkDir      string              `yaml:"workDir"`
+	GithubToken  string              `yaml:"githubToken"`
 }

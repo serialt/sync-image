@@ -6,22 +6,52 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
-	"net/url"
 	"os"
+	"os/exec"
 	"regexp"
 	"slices"
 	"sort"
 	"strings"
 
+	"github.com/heroku/docker-registry-client/registry"
+	"github.com/serialt/crab"
 	"gopkg.in/yaml.v3"
 )
 
 func service() {
-	slog.Debug("debug msg")
-	slog.Info("info msg")
-	slog.Error("error msg")
 
 	GenerateDynamicConf()
+
+	files, err := crab.FileLoopFiles(config.WorkDir)
+	if err != nil {
+		slog.Error("Get skopeo files failed", "err", err)
+		os.Exit(5)
+	}
+	c := SyncClient{}
+	for _, iFile := range files {
+		for _, v := range config.Hub {
+			c.Next()
+			SkopeoSync(c.Hub, v.Username, v.Password, v.URL, iFile)
+		}
+
+	}
+
+}
+
+func (s *SyncClient) Next() {
+	if len(config.DockerHub) == 1 {
+		s.Hub = DockerHub{
+			URL:      config.DockerHub[0].URL,
+			Username: config.DockerHub[0].Username,
+			Password: config.DockerHub[0].Password,
+		}
+	} else {
+		index := int(s.Index) % (len(config.DockerHub) - 1)
+		s.Hub = config.DockerHub[index]
+		index++
+		s.Index = int64(index)
+
+	}
 
 }
 
@@ -92,15 +122,7 @@ func GetRepoTagFromGcr(image string, limit int, host string) (tags []string, err
 		"tags", tags,
 		"err", err)
 
-	imageName := ""
-	if strings.Contains(image, "/") {
-		_grcImage := strings.Split(image, "/")
-		imageName = _grcImage[1]
-	} else {
-		imageName = image
-	}
-
-	syncedTag, _ := GetDockerTags(os.Getenv("DEST_HUB_USERNAME")+"/"+imageName, limit)
+	syncedTag := GetExitTags(image)
 	var _tags []string
 	for _, v := range tags {
 		if !slices.Contains(syncedTag, v) {
@@ -169,15 +191,7 @@ func GetRepoTagFromElastic(image string, limit int) (tags []string, err error) {
 		"tags", tags,
 		"err", err)
 
-	imageName := ""
-	if strings.Contains(image, "/") {
-		_esImage := strings.Split(image, "/")
-		imageName = _esImage[1]
-	} else {
-		imageName = image
-	}
-
-	syncedTag, _ := GetDockerTags(os.Getenv("DEST_HUB_USERNAME")+"/"+imageName, limit)
+	syncedTag := GetExitTags(image)
 	var _tags []string
 	for _, v := range tags {
 		if !slices.Contains(syncedTag, v) {
@@ -228,15 +242,7 @@ func GetRepoTagFromQuay(image string, limit int) (tags []string, err error) {
 		"tags", tags,
 		"err", err)
 
-	imageName := ""
-	if strings.Contains(image, "/") {
-		_quayImage := strings.Split(image, "/")
-		imageName = _quayImage[1]
-	} else {
-		imageName = image
-	}
-
-	syncedTag, _ := GetDockerTags(os.Getenv("DEST_HUB_USERNAME")+"/"+imageName, limit)
+	syncedTag := GetExitTags(image)
 	var _tags []string
 	for _, v := range tags {
 		if !slices.Contains(syncedTag, v) {
@@ -251,78 +257,6 @@ func GetRepoTagFromQuay(image string, limit int) (tags []string, err error) {
 	return
 }
 
-type dockerToken struct {
-	Token string `json:"token"`
-}
-
-func GetDockerToken() (err error) {
-	username := os.Getenv("DEST_HUB_USERNAME")
-	password := os.Getenv("DEST_HUB_PASSWORD")
-
-	apiUrl := "https://hub.docker.com/v2/users/login"
-	data := url.Values{}
-	data.Set("username", username)
-	data.Set("password", password)
-	resp, err := http.PostForm(apiUrl, data)
-	if err != nil {
-		return
-	}
-	defer resp.Body.Close()
-	_data, _ := io.ReadAll(resp.Body)
-
-	var tmpT dockerToken
-	json.Unmarshal(_data, &tmpT)
-	tmpDockerToken = tmpT.Token
-	return
-
-}
-
-type Results struct {
-	Name string `json:"name"`
-}
-type DockerResp struct {
-	Results []Results `json:"results"`
-}
-
-func GetDockerTags(image string, limit int) (tags []string, err error) {
-	_image := strings.Split(image, "/")
-	this_token := fmt.Sprintf("Bearer %s", tmpDockerToken)
-	// dockerhub 支持不使用token请求，但是容易被限速:
-	// curl https://hub.docker.com/v2/namespaces/serialt/repositories/vscode/tags
-	apiURL := fmt.Sprintf("https://hub.docker.com/v2/namespaces/%s/repositories/%s/tags", _image[0], _image[1])
-	req, _ := http.NewRequest("GET", apiURL, nil)
-	req.Header.Add("Content-Type", "application/json; charset=utf-8")
-	req.Header.Add("Accept", "application/json; charset=utf-8")
-	req.Header.Add("Authorization", this_token)
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return
-	}
-	defer resp.Body.Close()
-	_data, _ := io.ReadAll(resp.Body)
-
-	var _resp DockerResp
-	json.Unmarshal(_data, &_resp)
-
-	for _, v := range _resp.Results {
-		if !isExcludeTag(v.Name) {
-			tags = append(tags, v.Name)
-		}
-	}
-	sort.Sort(sort.Reverse(sort.StringSlice(tags)))
-	if len(tags) > limit {
-		tags = tags[:limit]
-	}
-	slog.Info("Get tag from docker.io",
-		"image", image,
-		"tags", tags,
-		"err", err)
-
-	return
-}
-
 type GhcrMetaData struct {
 	Container CTag `json:"container"`
 }
@@ -333,11 +267,10 @@ type GhcrPkgResp struct {
 }
 
 func GetRepoTagFromGHCR(image string, limit int) (tags []string, err error) {
-	githubToken := os.Getenv("MY_GITHUB_TOKEN")
 	_image := strings.Split(image, "/")
 	apiURL := fmt.Sprintf("https://api.github.com/users/%s/packages/container/%s/versions?pagepage=1&per_page=1000", _image[0], _image[1])
 
-	this_token := fmt.Sprintf("Bearer %s", githubToken)
+	this_token := fmt.Sprintf("Bearer %s", config.GithubToken)
 
 	// 获取package tag
 	req, _ := http.NewRequest("GET", apiURL, nil)
@@ -369,15 +302,9 @@ func GetRepoTagFromGHCR(image string, limit int) (tags []string, err error) {
 	if len(tags) > limit {
 		tags = tags[:limit]
 	}
-	slog.Info("Get tag from ghcr.io",
-		"image", image,
-		"tags", tags,
-		"err", err)
+	slog.Info("Get tag from ghcr.io", "image", image, "tags", tags)
 
-	_ghcrImage := strings.Split(image, "/")
-	imageName := _ghcrImage[1]
-
-	syncedTag, _ := GetDockerTags(os.Getenv("DEST_HUB_USERNAME")+"/"+imageName, limit)
+	syncedTag := GetExitTags(image)
 	var _tags []string
 	for _, v := range tags {
 		if !slices.Contains(syncedTag, v) {
@@ -393,80 +320,24 @@ func GetRepoTagFromGHCR(image string, limit int) (tags []string, err error) {
 	return
 }
 
-type McrTag struct {
-	Name string `json:"name"`
-}
-
-// GetRepoTagFromMcr 获取 mcr.microsoft.com repo 最新的 tag
-func GetRepoTagFromMcr(image string, limit int) (tags []string, err error) {
-	tag_url := fmt.Sprintf("https://mcr.microsoft.com/api/v1/catalog/%s/tags", image)
-
-	var tagList []McrTag
-	resp, err := http.Get(tag_url)
-	if err != nil {
-		return
-	}
-	defer resp.Body.Close()
-
-	body, _ := io.ReadAll(resp.Body)
-
-	json.Unmarshal(body, &tagList)
-	for _, v := range tagList {
-		// if !isExcludeTag(v) {
-		tags = append(tags, v.Name)
-		// }
-
-	}
-
-	sort.Sort(sort.Reverse(sort.StringSlice(tags)))
-	// 当tag数多于limit值时，不回tag进行切分
-	if len(tags) > limit {
-		tags = tags[:limit]
-	}
-	slog.Info("Get tag from mcr",
-		"image", image,
-		"tags", tags,
-		"err", err)
-
-	imageName := ""
-	if strings.Contains(image, "/") {
-		_mrcImage := strings.Split(image, "/")
-		imageName = _mrcImage[1]
-	} else {
-		imageName = image
-	}
-
-	syncedTag, _ := GetDockerTags(os.Getenv("DEST_HUB_USERNAME")+"/"+imageName, limit)
-	var _tags []string
-	for _, v := range tags {
-		if !slices.Contains(syncedTag, v) {
-			_tags = append(_tags, v)
-		}
-	}
-	tags = _tags
-
-	slog.Info("Get sync tag from mcr",
-		"image", image,
-		"tags", tags,
-		"err", err)
-	return
-}
-
 // GetRepoTags 获取repo最新的tag
 func GetRepoTags(repo, image string, limit int) (tags []string) {
+
 	switch repo {
-	case "gcr.io", "k8s.gcr.io", "registry.k8s.io":
+	case "gcr.io", "k8s.gcr.io":
 		tags, _ = GetRepoTagFromGcr(image, limit, repo)
 	case "quay.io":
 		tags, _ = GetRepoTagFromQuay(image, limit)
-	case "docker.io":
-		tags, _ = GetDockerTags(image, limit)
 	case "ghcr.io":
 		tags, _ = GetRepoTagFromGHCR(image, limit)
 	case "docker.elastic.co":
 		tags, _ = GetRepoTagFromElastic(image, limit)
-	case "mcr.microsoft.com":
-		tags, _ = GetRepoTagFromMcr(image, config.McrLast)
+
+	default:
+		// mcr.microsoft.com
+		// registry.k8s.io
+		// docker.io
+		tags = GetTags(repo, image, limit)
 	}
 
 	return
@@ -475,14 +346,16 @@ func GetRepoTags(repo, image string, limit int) (tags []string) {
 // 生成动态同步配置
 func GenerateDynamicConf() {
 
-	SkopeoData := make(map[string]map[string]map[string][]string)
+	// SkopeoData := make(map[string]map[string]map[string][]string)
 	for domain, v := range config.Images {
-		imagesM := make(map[string][]string)
-		imagesMap := map[string]map[string][]string{
-			"images": imagesM,
-		}
-		for _, i := range v {
 
+		for _, i := range v {
+			SkopeoData := make(map[string]map[string]map[string][]string)
+			imagesM := make(map[string][]string)
+			imagesMap := map[string]map[string][]string{
+				"images": imagesM,
+			}
+			// tag := GetRepoTags(domain, i, config.Last)
 			tag := GetRepoTags(domain, i, config.Last)
 			if len(tag) == 0 {
 				continue
@@ -492,18 +365,175 @@ func GenerateDynamicConf() {
 			imagesMap["images"] = imagesM
 			SkopeoData[domain] = imagesMap
 
+			// 生成多个同步文件
+			SkopeoImageData := make(map[string]map[string]map[string][]string)
+			SkopeoImageData[domain] = imagesMap
+			data, err := yaml.Marshal(SkopeoImageData)
+			if err != nil {
+				slog.Error("yaml marshal failed", "err", err)
+				return
+			}
+			filenameSlice := strings.Split(i, "/")
+			filename := strings.Join(filenameSlice, "-")
+
+			err = os.WriteFile(config.WorkDir+"/"+filename+".yaml", data, 0644)
+			if err != nil {
+				slog.Error("Write auto sync data to file failed", "err", err)
+			}
+
 		}
 
 	}
 
-	data, err := yaml.Marshal(SkopeoData)
-	if err != nil {
-		slog.Error("yaml marshal failed", "err", err)
-		return
+	// data, err := yaml.Marshal(SkopeoData)
+	// if err != nil {
+	// 	slog.Error("yaml marshal failed", "err", err)
+	// 	return
+	// }
+	// err = os.WriteFile(config.AutoSyncfile, data, 0644)
+	// if err != nil {
+	// 	slog.Error("Write auto sync data to file failed", "err", err)
+	// }
+
+}
+
+func SkopeoSync(sHub DockerHub, username, password, url, skopeoFile string) {
+	// docker.io
+	// registry.cn-hangzhou.aliyuncs.com
+	// swr.cn-east-3.myhuaweicloud.com
+	iUrl := strings.Split(url, ".")
+	iCMD := ""
+	// destHub := fmt.Sprintf("%s/%s", url, username)
+	switch iUrl[len(iUrl)-2] {
+	case "myhuaweicloud":
+		iCMD = fmt.Sprintf("skopeo login -u %s@%s -p %s %s", username, iUrl[0], password, url)
+	default:
+		iCMD = fmt.Sprintf("skopeo login -u %s -p %s %s", username, password, url)
 	}
-	err = os.WriteFile(config.AutoSyncfile, data, 0644)
-	if err != nil {
-		slog.Error("Write auto sync data to file failed", "err", err)
+	if sHub.URL == "docker.io" {
+		lCMD := fmt.Sprintf("skopeo login -u %s -p %s %s", username, password, url)
+		result, err := RunCMD(lCMD)
+		fmt.Println(result)
+		if err != nil {
+			slog.Error("login docker.io failed", "err", err)
+			return
+		}
 	}
 
+	result, err := RunCMD(iCMD)
+
+	if err != nil {
+		slog.Error("login failed", "url", url, "file", skopeoFile, "err", err)
+		fmt.Println(result)
+		return
+	}
+	slog.Info("login hub", "url", url, "user", username)
+	fmt.Println(result)
+
+	// iCMD = fmt.Sprintf("skopeo --insecure-policy sync -a  --src yaml --dest docker %s %s", skopeoFile, destHub)
+	// result, err = RunCMD(iCMD)
+	// if err != nil {
+	// 	slog.Error("sync image failed", "file", skopeoFile, "destHub", destHub, "err", err)
+	// 	fmt.Println(result)
+	// 	return
+	// }
+	// slog.Info("skopeo sync succeed", "url", url, "user", username, "file", skopeoFile)
+	// fmt.Println(result)
+
+	iCMD = fmt.Sprintf("skopeo logout %s ", url)
+	result, err = RunCMD(iCMD)
+	if err != nil {
+		slog.Error("logout failed", "cmd", iCMD, "err", err)
+		fmt.Println(result)
+		return
+	}
+	fmt.Println(result)
+	return
+}
+
+func GetTags(url, image string, limit int) (tags []string) {
+	var srcTags []string
+	var hubURL string
+	switch url {
+	case "docker.io":
+		hubURL = "https://registry-1.docker.io"
+	default:
+		hubURL = fmt.Sprintf("https://%s", url)
+	}
+	hub, err := registry.New(hubURL, "", "")
+	if err != nil {
+		slog.Error("create hub failed", "hub", hubURL, "err", err)
+		return
+	}
+	hubTags, err := hub.Tags(image)
+	if err != nil {
+		slog.Error("get tag failed", "hub", hubURL, "image", image, "err", err)
+	}
+
+	if url != "mcr.microsoft.com" {
+		for _, v := range hubTags {
+			if !isExcludeTag(v) {
+				srcTags = append(srcTags, v)
+			}
+		}
+	}
+
+	if len(srcTags) > limit {
+		srcTags = srcTags[:limit]
+	}
+	slog.Info("get tag", "url", hubURL, "image", image, "tags", srcTags)
+
+	etags := GetExitTags(image)
+	for _, tag := range srcTags {
+		if !slices.Contains(etags, tag) {
+			tags = append(tags, tag)
+		}
+	}
+	slog.Info("get tag", "url", url, "image", image, "tags", tags)
+	return
+}
+
+func GetExitTags(image string) (tags []string) {
+	// get exits tag
+	var eImage string
+	eImageS := strings.Split(image, "/")
+	if len(eImageS) == 2 {
+		eImage = eImageS[1]
+	} else {
+		eImage = image
+	}
+	var hubURL, username, password string
+	switch config.Hub[0].URL {
+	case "docker.io":
+		hubURL = "https://registry-1.docker.io"
+		username = config.Hub[0].Username
+		password = config.Hub[0].Password
+	default:
+		hubURL = fmt.Sprintf("https://%s", config.Hub[0].URL)
+	}
+
+	eHub, err := registry.New(hubURL, username, password)
+	if err != nil {
+		slog.Error("get exits hub failed", "hub", hubURL, "err", err)
+	}
+	tags, err = eHub.Tags(config.Hub[0].Username + "/" + eImage)
+	if err != nil {
+		slog.Error("get exits tag from hub failed", "url", hubURL, "image", eImage, "err", err)
+
+	}
+	slog.Info("get exits tag from hub", "url", hubURL, "image", eImage, "tags", tags)
+
+	return
+}
+
+func RunCMD(str string, workDir ...string) (string, error) {
+	cmd := exec.Command("/bin/bash", "-c", str)
+	if len(workDir) > 0 {
+		cmd.Dir = workDir[0]
+	}
+	result, err := cmd.CombinedOutput()
+	if err != nil {
+		return string(result), err
+	}
+	return string(result), nil
 }
