@@ -39,17 +39,12 @@ jobs:
         go install github.com/serialt/sync-image@latest
     - name: generate_sync_yaml
       env:
-        SRC_HUB_USERNAME: ${{ secrets.SRC_HUB_USERNAME }}
-        DEST_HUB_USERNAME: ${{ secrets.DEST_HUB_USERNAME }}
-        DEST_HUB_PASSWORD: ${{ secrets.DEST_HUB_PASSWORD }}
+        DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+        DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        HUB_USERNAME: ${{ secrets.HUB_USERNAME }}
+        HUB_PASSWORD: ${{ secrets.HUB_PASSWORD }}
+        HUB_URL: ${{ secrets.HUB_URL }}
         MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-      timeout-minutes: 10
       run: |
         sync-image
-    - name: sync image
-      env:
-        SRC_HUB_USERNAME: ${{ secrets.SRC_HUB_USERNAME }}
-        DEST_HUB_USERNAME: ${{ secrets.DEST_HUB_USERNAME }}
-        DEST_HUB_PASSWORD: ${{ secrets.DEST_HUB_PASSWORD }}
-      run: |
-        bash sync.sh
+
