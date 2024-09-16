@@ -36,7 +36,7 @@ jobs:
       run: |
         export version=v1.13.3 && export  arch=amd64 && sudo wget https://github.com/serialt/skopeo/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && sudo chmod +x /usr/bin/skopeo
         skopeo --version
-        go install github.com/serialt/sync-image@latest
+        go install github.com/serialt/sync-image@main
     - name: generate_sync_yaml
       env:
         DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
