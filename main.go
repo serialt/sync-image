@@ -34,13 +34,13 @@ func init() {
 	}
 	config.GithubToken = os.Getenv("MY_GITHUB_TOKEN")
 	if len(config.DockerHub) == 0 {
-		hubUsernames := strings.Split(os.Getenv("DOCKER_HUB_USERNAME"), ",")
-		hubPasswords := strings.Split(os.Getenv("DOCKER_HUB_PASSWORD"), ",")
-		for i, v := range hubUsernames {
-			config.DockerHub = append(config.Hub, DockerHub{
+		dockerhubnames := strings.Split(os.Getenv("DOCKER_HUB_USERNAME"), ",")
+		dockerhubpass := strings.Split(os.Getenv("DOCKER_HUB_PASSWORD"), ",")
+		for i, v := range dockerhubnames {
+			config.DockerHub = append(config.DockerHub, DockerHub{
 				URL:      "docker.io",
 				Username: v,
-				Password: hubPasswords[i],
+				Password: dockerhubpass[i],
 			})
 		}
 	}

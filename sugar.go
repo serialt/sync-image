@@ -36,6 +36,18 @@ func service() {
 
 	}
 
+	logoutHub := crab.SliceMerge(config.Hub, config.DockerHub)
+	for _, v := range logoutHub {
+		iCMD := fmt.Sprintf("skopeo logout %s ", v.URL)
+		result, err := RunCMD(iCMD)
+		if err != nil {
+			slog.Error("logout failed", "cmd", iCMD, "err", err)
+			fmt.Println(result)
+			continue
+		}
+		fmt.Println(result)
+	}
+
 }
 
 func (s *SyncClient) Next() {
@@ -410,8 +422,8 @@ func SkopeoSync(sHub DockerHub, username, password, url, skopeoFile string) {
 	default:
 		iCMD = fmt.Sprintf("skopeo login -u %s -p %s %s", username, password, url)
 	}
-	if sHub.URL == "docker.io" {
-		lCMD := fmt.Sprintf("skopeo login -u %s -p %s %s", username, password, url)
+	if url != "docker.io" {
+		lCMD := fmt.Sprintf("skopeo login -u %s -p %s %s", sHub.Username, sHub.Password, "docker.io")
 		result, err := RunCMD(lCMD)
 		fmt.Println(result)
 		if err != nil {
@@ -430,24 +442,17 @@ func SkopeoSync(sHub DockerHub, username, password, url, skopeoFile string) {
 	slog.Info("login hub", "url", url, "user", username)
 	fmt.Println(result)
 
-	// iCMD = fmt.Sprintf("skopeo --insecure-policy sync -a  --src yaml --dest docker %s %s", skopeoFile, destHub)
-	// result, err = RunCMD(iCMD)
-	// if err != nil {
-	// 	slog.Error("sync image failed", "file", skopeoFile, "destHub", destHub, "err", err)
-	// 	fmt.Println(result)
-	// 	return
-	// }
-	// slog.Info("skopeo sync succeed", "url", url, "user", username, "file", skopeoFile)
-	// fmt.Println(result)
-
-	iCMD = fmt.Sprintf("skopeo logout %s ", url)
+	destHub := url + "/" + username
+	iCMD = fmt.Sprintf("skopeo --insecure-policy sync -a  --src yaml --dest docker %s %s", skopeoFile, destHub)
 	result, err = RunCMD(iCMD)
 	if err != nil {
-		slog.Error("logout failed", "cmd", iCMD, "err", err)
+		slog.Error("sync image failed", "file", skopeoFile, "destHub", destHub, "err", err)
 		fmt.Println(result)
 		return
 	}
+	slog.Info("skopeo sync succeed", "url", url, "user", username, "file", skopeoFile)
 	fmt.Println(result)
+
 	return
 }
 
