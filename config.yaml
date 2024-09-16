@@ -29,104 +29,104 @@ exclude:
   - 'dev'
   - 'test'
 images:
-  # docker.elastic.co:
-  #   - elasticsearch/elasticsearch
-  #   - kibana/kibana
-  #   - logstash/logstash
-  #   - beats/filebeat
-  #   - beats/heartbeat
-  #   - beats/packetbeat
-  #   - beats/auditbeat
-  #   - beats/journalbeat
-  #   - beats/metricbeat
-  #   - apm/apm-server
-  #   - app-search/app-search
-  # quay.io:
-    # - coreos/flannel
-    # - ceph/ceph
-    # - cephcsi/cephcsi
-    # - csiaddons/k8s-sidecar
-    # - csiaddons/volumereplication-operator
-    # - prometheus/prometheus
-    # - prometheus/alertmanager
-    # - prometheus/pushgateway
-    # - prometheus/blackbox-exporter
-    # - prometheus/node-exporter
-    # - prometheus-operator/prometheus-config-reloader
-    # - prometheus-operator/prometheus-operator
-    # - brancz/kube-rbac-proxy
-    # - jetstack/cert-manager-webhook
-    # - jetstack/cert-manager-controller
-    # - jetstack/cert-manager-cainjector
-  # k8s.gcr.io:
-  #   - conformance
-  #   - dns/k8s-dns-node-cache
-  #   - metrics-server/metrics-server
-  #   - kube-state-metrics/kube-state-metrics
-  #   - prometheus-adapter/prometheus-adapter
-  # registry.k8s.io:
-  #   - sig-storage/local-volume-provisioner
-  #   - metrics-server/metrics-server
-  #   - defaultbackend
-  #   - ingress-nginx/controller
-  #   - ingress-nginx/kube-webhook-certgen
-  #   - sig-storage/nfs-subdir-external-provisioner
-  #   - sig-storage/csi-node-driver-registrar
-  #   - sig-storage/csi-provisioner
-  #   - sig-storage/csi-resizer
-  #   - sig-storage/csi-snapshotter
-  #   - sig-storage/snapshot-controller
-  #   - sig-storage/snapshot-validation-webhook
-  #   - sig-storage/nfsplugin
-  #   - sig-storage/csi-attacher
-  #   - sig-storage/livenessprobe
-  #   - defaultbackend-amd64
-  #   - defaultbackend-arm64
-  #   - pause
-  #   - etcd
-  #   - kube-proxy
-  #   - kube-apiserver
-  #   - kube-scheduler
-  #   - kube-controller-manager
-  #   - coredns/coredns
-  #   - build-image/kube-cross
-  # gcr.io:
-  #   - kaniko-project/executor
-  # ghcr.io:
-  #   - k3d-io/k3d-tools
-  #   - k3d-io/k3d-proxy
-  #   - kube-vip/kube-vip
-  # mcr.microsoft.com:
-  #   - devcontainers/base
-  #   - devcontainers/go
+  docker.elastic.co:
+    - elasticsearch/elasticsearch
+    - kibana/kibana
+    - logstash/logstash
+    - beats/filebeat
+    - beats/heartbeat
+    - beats/packetbeat
+    - beats/auditbeat
+    - beats/journalbeat
+    - beats/metricbeat
+    - apm/apm-server
+    - app-search/app-search
+  quay.io:
+    - coreos/flannel
+    - ceph/ceph
+    - cephcsi/cephcsi
+    - csiaddons/k8s-sidecar
+    - csiaddons/volumereplication-operator
+    - prometheus/prometheus
+    - prometheus/alertmanager
+    - prometheus/pushgateway
+    - prometheus/blackbox-exporter
+    - prometheus/node-exporter
+    - prometheus-operator/prometheus-config-reloader
+    - prometheus-operator/prometheus-operator
+    - brancz/kube-rbac-proxy
+    - jetstack/cert-manager-webhook
+    - jetstack/cert-manager-controller
+    - jetstack/cert-manager-cainjector
+  k8s.gcr.io:
+    - conformance
+    - dns/k8s-dns-node-cache
+    - metrics-server/metrics-server
+    - kube-state-metrics/kube-state-metrics
+    - prometheus-adapter/prometheus-adapter
+  registry.k8s.io:
+    - sig-storage/local-volume-provisioner
+    - metrics-server/metrics-server
+    - defaultbackend
+    - ingress-nginx/controller
+    - ingress-nginx/kube-webhook-certgen
+    - sig-storage/nfs-subdir-external-provisioner
+    - sig-storage/csi-node-driver-registrar
+    - sig-storage/csi-provisioner
+    - sig-storage/csi-resizer
+    - sig-storage/csi-snapshotter
+    - sig-storage/snapshot-controller
+    - sig-storage/snapshot-validation-webhook
+    - sig-storage/nfsplugin
+    - sig-storage/csi-attacher
+    - sig-storage/livenessprobe
+    - defaultbackend-amd64
+    - defaultbackend-arm64
+    - pause
+    - etcd
+    - kube-proxy
+    - kube-apiserver
+    - kube-scheduler
+    - kube-controller-manager
+    - coredns/coredns
+    - build-image/kube-cross
+  gcr.io:
+    - kaniko-project/executor
+  ghcr.io:
+    - k3d-io/k3d-tools
+    - k3d-io/k3d-proxy
+    - kube-vip/kube-vip
+  mcr.microsoft.com:
+    - devcontainers/base
+    - devcontainers/go
   docker.io:
-  #   - serialt/rocky
-  #   - serialt/alma
-  #   - bitnami/redis
-  #   - library/alpine
-  #   - library/debian
-  #   - library/ubuntu
-  #   - library/golang
-  #   - library/python
-    # - library/node
-  #   - library/openjdk
-  #   - library/maven
-  #   - library/nginx 
-  #   - library/postgres
-  #   - library/busybox
-  #   - library/caddy
-  #   - bitnami/rabbitmq
-  #   - bitnami/redis
-  #   - grafana/grafana
-  #   - grafana/loki
-  #   - grafana/grafana-image-renderer
+    - serialt/rocky
+    - serialt/alma
+    - bitnami/redis
+    - library/alpine
+    - library/debian
+    - library/ubuntu
+    - library/golang
+    - library/python
+    - library/node
+    - library/openjdk
+    - library/maven
+    - library/nginx 
+    - library/postgres
+    - library/busybox
+    - library/caddy
+    - bitnami/rabbitmq
+    - bitnami/redis
+    - grafana/grafana
+    - grafana/loki
+    - grafana/grafana-image-renderer
     - grafana/promtail
-  #   - grafana/mimir
-  #   - grafana/tempo
-  #   - hashicorp/vault
-  #   - library/consul
-  #   - gitlab/gitlab-runner
-  #   - rancher/mirrored-metrics-server
-  #   - sonatype/nexus3
-  #   - dpage/pgadmin4
+    - grafana/mimir
+    - grafana/tempo
+    - hashicorp/vault
+    - library/consul
+    - gitlab/gitlab-runner
+    - rancher/mirrored-metrics-server
+    - sonatype/nexus3
+    - dpage/pgadmin4
 
