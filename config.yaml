@@ -136,4 +136,5 @@ images:
     - library/mysql
     - library/memcached
     - easysoft/zentao
+    - dbeaver/cloudbeaver
 
