@@ -9,6 +9,9 @@ docker.io:
     - '24.2'
     - '24'
     - '24.1.5'
+    sonatype/nexus3:
+    - 3.74.0
+    - 3.74.0-alpine
 
 
 
