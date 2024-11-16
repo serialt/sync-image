@@ -28,6 +28,7 @@ exclude:
   - 'unstable'
   - 'dev'
   - 'test'
+  - '.sig'
 images:
   docker.elastic.co:
     - elasticsearch/elasticsearch

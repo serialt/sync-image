@@ -68,22 +68,23 @@ func (s *SyncClient) Next() {
 
 }
 
+func isMatch(tag string) bool {
+	match, _ := regexp.MatchString(`^(v\d+|\d+)[a-zA-Z0-9.-]*$`, tag)
+	return match
+}
+
 // isExcludeTag 排除tag
 func isExcludeTag(tag string) bool {
-	// 字母v开头或者数字开头, 只包含数字和字母和. ,不以sig结尾
-	match, _ := regexp.MatchString(`^(v\d+|\d+)[a-zA-Z0-9.-]*$`, tag)
-	if match {
-		lowerTag := strings.ToLower(tag)
-		// 如果tag包含被排除的字段，则直接返回true
-		for _, ex := range config.Exclude {
-			if strings.Contains(lowerTag, ex) {
-				return true
-			}
+
+	lowerTag := strings.ToLower(tag)
+	// 如果tag包含被排除的字段，则直接返回true
+	for _, ex := range config.Exclude {
+		if strings.Contains(lowerTag, ex) {
+			return true
 		}
-		return false
 	}
 
-	return true
+	return false
 
 }
 
@@ -91,9 +92,12 @@ func isExcludeTag(tag string) bool {
 func GetOCITags(url, image string, limit int) (tags []string, err error) {
 	allTags := GetTags(url, image)
 	for _, v := range allTags {
-		if !isExcludeTag(v) {
-			tags = append(tags, v)
+		if isMatch(v) {
+			if !isExcludeTag(v) {
+				tags = append(tags, v)
+			}
 		}
+
 	}
 	tags = slice.Difference(allTags, GetExitTags(image))
 	slog.Info("Get sync tag from oci", "host", url, "image", image, "tags", tags, "err", err)
