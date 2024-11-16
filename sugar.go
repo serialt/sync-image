@@ -96,11 +96,7 @@ func GetOCITags(url, image string, limit int) (tags []string, err error) {
 	for _, v := range allTags {
 		// 如果tag不报含sig结尾
 		if !strings.HasSuffix(v, "sig") {
-			if image == "build-image/kube-cross" {
-				tags = append(tags, v)
-			} else if !isExcludeTag(v) {
-				tags = append(tags, v)
-			}
+			tags = append(tags, v)
 		}
 	}
 	tags = slice.Difference(ParseVersion(tags, limit), GetExitTags(image))
