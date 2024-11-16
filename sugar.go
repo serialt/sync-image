@@ -8,13 +8,11 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
-	"sort"
 	"strings"
 	"syscall"
 	"time"
 
 	"github.com/duke-git/lancet/v2/slice"
-	"github.com/hashicorp/go-version"
 	"github.com/serialt/crab"
 	"gopkg.in/yaml.v3"
 )
@@ -271,23 +269,13 @@ func RunCommandWithTimeout(timeout int, command string, args ...string) (stdout,
 	return
 }
 
-func ParseVersion(versionsRaw []string, count int) (tags []string) {
-	slog.Info("Get tags", "tags", versionsRaw)
-	vLen := len(versionsRaw)
+func ParseVersion(versions []string, count int) (tags []string) {
+	vLen := len(versions)
 	if vLen == 0 {
 		return
 	}
-	versions := make([]*version.Version, vLen)
-	for i, raw := range versionsRaw {
-		v, _ := version.NewVersion(raw)
-		versions[i] = v
-	}
-	sort.Sort(version.Collection(versions))
 	if vLen > count {
 		versions = versions[vLen-count:]
-	}
-	for _, v := range versions {
-		tags = append(tags, v.String())
 	}
 	return
 }
