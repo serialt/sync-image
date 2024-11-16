@@ -104,7 +104,7 @@ func GetOCITags(url, image string, limit int) (tags []string, err error) {
 		}
 	}
 	tags = slice.Difference(ParseVersion(tags, limit), GetExitTags(image))
-	slog.Info("Get sync tag from gcr", "host", url, "image", image, "tags", tags, "err", err)
+	slog.Info("Get sync tag from oci", "host", url, "image", image, "tags", tags, "err", err)
 	return
 }
 
