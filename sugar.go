@@ -8,11 +8,13 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
+	"sort"
 	"strings"
 	"syscall"
 	"time"
 
 	"github.com/duke-git/lancet/v2/slice"
+	"github.com/hashicorp/go-version"
 	"github.com/serialt/crab"
 	"gopkg.in/yaml.v3"
 )
@@ -68,10 +70,9 @@ func (s *SyncClient) Next() {
 
 // isExcludeTag 排除tag
 func isExcludeTag(tag string) bool {
-	match, _ := regexp.MatchString(`^[A-Za-z]+$`, tag)
-	if match || len(tag) >= 40 {
-		return true
-	} else {
+	// 字母v开头或者数字开头, 只包含数字和字母和.
+	match, _ := regexp.MatchString(`^(v[\w.]*|\d[\w.]*)$`, tag)
+	if match {
 		lowerTag := strings.ToLower(tag)
 		// 如果tag包含被排除的字段，则直接返回true
 		for _, ex := range config.Exclude {
@@ -81,6 +82,8 @@ func isExcludeTag(tag string) bool {
 		}
 		return false
 	}
+
+	return true
 
 }
 
@@ -274,8 +277,15 @@ func ParseVersion(versions []string, count int) (tags []string) {
 	if vLen == 0 {
 		return
 	}
+	versionsGo := make([]*version.Version, len(versions))
+	for i, raw := range versions {
+		v, _ := version.NewVersion(raw)
+		versionsGo[i] = v
+	}
+	sort.Sort(version.Collection(versionsGo))
 	if vLen > count {
 		versions = versions[vLen-count:]
 	}
+
 	return
 }
