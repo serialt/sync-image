@@ -70,8 +70,8 @@ func (s *SyncClient) Next() {
 
 // isExcludeTag 排除tag
 func isExcludeTag(tag string) bool {
-	// 字母v开头或者数字开头, 只包含数字和字母和.
-	match, _ := regexp.MatchString(`^(v[\w.]*|\d[\w.]*)$`, tag)
+	// 字母v开头或者数字开头, 只包含数字和字母和. ,不以sig结尾
+	match, _ := regexp.MatchString(`^(v[\w.]*|\d[\w.]*)$(?<!sig)`, tag)
 	if match {
 		lowerTag := strings.ToLower(tag)
 		// 如果tag包含被排除的字段，则直接返回true
@@ -87,16 +87,11 @@ func isExcludeTag(tag string) bool {
 
 }
 
-type CTag struct {
-	Tags []string `json:"tags"`
-}
-
 // GetOCITags 获取 oci repo 最新的 tag
 func GetOCITags(url, image string, limit int) (tags []string, err error) {
 	allTags := GetTags(url, image)
 	for _, v := range allTags {
-		// 如果tag不报含sig结尾
-		if !strings.HasSuffix(v, "sig") {
+		if !isExcludeTag(v) {
 			tags = append(tags, v)
 		}
 	}
