@@ -1,0 +1,24 @@
+{
+    "Repository": "registry.k8s.io/sig-storage/livenessprobe",
+    "Tags": [
+        "sha256-2b10b24dafdc3ba94a03fc94d9df9941ca9d6a9207b927f5dfd21d59fbe05ba0.sig",
+        "sha256-33692aed26aaf105b4d6e66280cceca9e0463f500c81b5d8c955428a75438f32.sig",
+        "sha256-4dc0b87ccd69f9865b89234d8555d3a614ab0a16ed94a3016ffd27f8106132ce.sig",
+        "sha256-5baeb4a6d7d517434292758928bb33efc6397368cbb48c8a4cf29496abf4e987.sig",
+        "sha256-82adbebdf5d5a1f40f246aef8ddbee7f89dea190652aefe83336008e69f9a89f.sig",
+        "sha256-933940f13b3ea0abc62e656c1aa5c5b47c04b15d71250413a6b821bd0c58b94e.sig",
+        "sha256-cacee2b5c36dd59d4c7e8469c05c9e4ef53ecb2df9025fa8c10cdaf61bce62f0.sig",
+        "sha256-d2a9027a4876e039185e9bef7c61a0142c8ea14e7440860285c34ac73fee4ffb.sig",
+        "v1.1.0",
+        "v2.1.0",
+        "v2.10.0",
+        "v2.11.0",
+        "v2.12.0",
+        "v2.13.1",
+        "v2.14.0",
+        "v2.2.0",
+        "v2.3.0",
+        "v2.4.0",
+        "v2.5.0"
+    ]
+}

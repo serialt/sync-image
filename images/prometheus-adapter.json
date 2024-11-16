@@ -1,0 +1,17 @@
+{
+    "Repository": "k8s.gcr.io/prometheus-adapter/prometheus-adapter",
+    "Tags": [
+        "sha256-2f34cb3a04a0fee6034f4d63ce3ee7786c0f762dc9f3bf196c70e894dd92edd1.sig",
+        "sha256-421ab7e37497f792a927d416a6e4b658a10e7879bd36c96f18d7c741fd0dc963.sig",
+        "sha256-4a3148185b8cdd3f938f938843de8a930041e81a6c069a121425344ed8384275.sig",
+        "sha256-932eae60e2bcf9c4660d6442da066ef1a79b4ea7cc232c61c7303069216ca006.sig",
+        "sha256-b02af0e88509094a72862f2594c00562cbff32c95754285153fda712b02852ba.sig",
+        "sha256-e6a43c83ab1656f5371f27dedbb4d99e3c60922af439f1868c7efa5e066c6633.sig",
+        "v0.10.0",
+        "v0.10.1",
+        "v0.11.0",
+        "v0.11.1",
+        "v0.9.0",
+        "v0.9.1"
+    ]
+}

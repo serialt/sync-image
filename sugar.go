@@ -69,6 +69,9 @@ func (s *SyncClient) Next() {
 }
 
 func isMatch(tag string) bool {
+	if len(tag) > 15 {
+		return false
+	}
 	match, _ := regexp.MatchString(`^(v\d+|\d+)[a-zA-Z0-9.-]*$`, tag)
 	return match
 }
@@ -99,6 +102,25 @@ func GetOCITags(url, image string, limit int) (tags []string, err error) {
 		}
 
 	}
+
+	var eImage string
+	eImageS := strings.Split(image, "/")
+	if len(eImageS) == 2 {
+		eImage = eImageS[1]
+	} else {
+		eImage = image
+	}
+	var eData []string
+	fData, err := os.ReadFile("images/" + eImage + ".json")
+	if err == nil {
+		var rTag RepositoryTag
+		err = json.Unmarshal(fData, &rTag)
+		if err != nil {
+			slog.Error("json unmarshal failed", "err", err)
+		}
+		eData = rTag.Tags
+	}
+	tags = slice.Difference(tags, eData)
 	tags = slice.Difference(tags, GetExitTags(image))
 	slog.Info("Get sync tag from oci", "host", url, "image", image, "tags", tags, "err", err)
 	return
@@ -117,7 +139,12 @@ func GenerateDynamicConf() {
 				"images": imagesM,
 			}
 			// tag := GetRepoTags(domain, i, config.Last)
-			tag, _ := GetOCITags(domain, i, config.Last)
+			var tag []string
+			if config.GenSynced {
+				GenSyncedImages(domain, i, "images")
+			} else {
+				tag, _ = GetOCITags(domain, i, config.Last)
+			}
 			if len(tag) == 0 {
 				continue
 			}
@@ -281,8 +308,29 @@ func ParseVersion(versions []string, count int) (tags []string) {
 		versionsGo[i] = v
 	}
 	sort.Sort(version.Collection(versionsGo))
-	if vLen > count {
-		versions = versions[vLen-count:]
+	// if vLen > count {
+	// 	versions = versions[vLen-count:]
+	// }
+
+	return
+}
+
+func GenSyncedImages(url, image string, dir string) {
+
+	// get exits tag
+	var eImage string
+	eImageS := strings.Split(image, "/")
+	if len(eImageS) == 2 {
+		eImage = eImageS[1]
+	} else {
+		eImage = image
+	}
+	listCMD := fmt.Sprintf("skopeo list-tags  docker://%v/%v > %v/%v.json", url, image, dir, eImage)
+	slog.Info("run cmd", "cmd", listCMD)
+	_, err := RunCMD(listCMD)
+	if err != nil {
+		slog.Error("get tags by skopeo failed", "err", err)
+		return
 	}
 
 	return

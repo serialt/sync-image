@@ -38,4 +38,5 @@ type Config struct {
 	Hub          []DockerHub         `yaml:"hub"`
 	WorkDir      string              `yaml:"workDir"`
 	GithubToken  string              `yaml:"githubToken"`
+	GenSynced    bool                `yaml:"genSynced"`
 }

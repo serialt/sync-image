@@ -1,0 +1,10 @@
+{
+    "Repository": "registry.k8s.io/sig-storage/local-volume-provisioner",
+    "Tags": [
+        "sha256-4833c13769fcfd1c41903bb51b6c43e71ffbe0c81b33ad5e1fbaa84d5e26dad0.sig",
+        "sha256-a112f1625aad84e4f425141199ab6ddbb49432c66e05dbbaab033d0ab2e8dfaf.sig",
+        "sha256-bf8427d8ce78fb6c41043f1fa75fbb1cd3e5bd1d336a6fbc3b13ff5574a30ede.sig",
+        "v2.4.0",
+        "v2.5.0"
+    ]
+}

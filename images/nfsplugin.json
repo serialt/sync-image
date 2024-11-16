@@ -1,0 +1,27 @@
+{
+    "Repository": "registry.k8s.io/sig-storage/nfsplugin",
+    "Tags": [
+        "sha256-1d9f524c0fd5d714cf274a0ddf5dceebeb1848349de5687e530c33dd2675e4ba.sig",
+        "sha256-2103ed076e38b87b877a3a58377fe546b5b6a9b83aff75bc9d79aa7a8f0569f2.sig",
+        "sha256-2beba908725f98d176339f2eef373aebd86132b0a67f2b5d03496a15515f0c1c.sig",
+        "sha256-3cdf324ca24f0900b1f639b1177a939a3d99ba66cec3db1e2ccfb1d52f2ad7f4.sig",
+        "sha256-54b97b7ec30ca185c16e8c40e84fc527a7fc5cc8e9f7ea6b857a7a67655fff54.sig",
+        "sha256-6de6f98b51c472217bd6d4bfb963cb3c054e5c0552d5c0785610525c7b0df22d.sig",
+        "sha256-92e5585a12c6f7aa9f0766caaea9b236c166b42935cb2210c7f77eba9413d74f.sig",
+        "sha256-971cb526bc0108cca7d8efda32102629cb362f99bbd4879fd381bea1b2014ab4.sig",
+        "sha256-a34c15c963a86da9720090f44c904f49d52b0454784f27017bb863ccbf0537a2.sig",
+        "sha256-aa38be2f98a9d9c7093b450915bbb2a2b4f53a74f1b6de76cef3aa5c80df45f5.sig",
+        "sha256-ec71d1797d1af17563bc5d19dfcf0229ca0f631d4a245f64ac358f7499946ee4.sig",
+        "sha256-fded5b914c2531c2471fd0088b75fd33b0756a6c42df4c069007857419e54fa9.sig",
+        "v3.0.0",
+        "v3.1.0",
+        "v4.0.0",
+        "v4.1.0",
+        "v4.2.0",
+        "v4.3.0",
+        "v4.4.0",
+        "v4.5.0",
+        "v4.6.0",
+        "v4.7.0"
+    ]
+}

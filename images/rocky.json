@@ -1,0 +1,14 @@
+{
+    "Repository": "docker.io/serialt/rocky",
+    "Tags": [
+        "8",
+        "8-arm64-sshd",
+        "8-dev",
+        "8-sshd",
+        "9",
+        "9-arm64-sshd",
+        "9-dev",
+        "9-sshd",
+        "dev"
+    ]
+}
