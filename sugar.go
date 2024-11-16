@@ -16,6 +16,8 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/duke-git/lancet/v2/slice"
+	"github.com/hashicorp/go-version"
 	"github.com/heroku/docker-registry-client/registry"
 	"github.com/serialt/crab"
 	"gopkg.in/yaml.v3"
@@ -73,25 +75,15 @@ func (s *SyncClient) Next() {
 // isExcludeTag 排除tag
 func isExcludeTag(tag string) bool {
 	match, _ := regexp.MatchString(`^[A-Za-z]+$`, tag)
-	if match {
-		return true
-	} else if len(tag) >= 40 {
+	if match || len(tag) >= 40 {
 		return true
 	} else {
 		lowerTag := strings.ToLower(tag)
-
 		// 如果tag包含被排除的字段，则直接返回true
-		var _exclude bool
 		for _, ex := range config.Exclude {
-			_exclude = false
 			if strings.Contains(lowerTag, ex) {
-				_exclude = true
-				break
+				return true
 			}
-
-		}
-		if _exclude {
-			return true
 		}
 		return false
 	}
@@ -112,9 +104,7 @@ func GetRepoTagFromGcr(image string, limit int, host string) (tags []string, err
 		return
 	}
 	defer resp.Body.Close()
-
 	body, _ := io.ReadAll(resp.Body)
-
 	json.Unmarshal(body, &tagList)
 	for _, v := range tagList.Tags {
 		// 如果tag不报含sig结尾
@@ -126,30 +116,8 @@ func GetRepoTagFromGcr(image string, limit int, host string) (tags []string, err
 			}
 		}
 	}
-
-	sort.Sort(sort.Reverse(sort.StringSlice(tags)))
-	// 当tag数多于limit值时，不回tag进行切分
-	if len(tags) > limit {
-		tags = tags[:limit]
-	}
-	slog.Info("Get tag from gcr", "host", host,
-		"image", image,
-		"tags", tags,
-		"err", err)
-
-	syncedTag := GetExitTags(image)
-	var _tags []string
-	for _, v := range tags {
-		if !slices.Contains(syncedTag, v) {
-			_tags = append(_tags, v)
-		}
-	}
-	tags = _tags
-
-	slog.Info("Get sync tag from gcr", "host", host,
-		"image", image,
-		"tags", tags,
-		"err", err)
+	tags = slice.Difference(ParseVersion(tags, limit), GetExitTags(image))
+	slog.Info("Get sync tag from gcr", "host", host, "image", image, "tags", tags, "err", err)
 	return
 }
 
@@ -196,29 +164,8 @@ func GetRepoTagFromElastic(image string, limit int) (tags []string, err error) {
 		}
 	}
 
-	sort.Sort(sort.Reverse(sort.StringSlice(tags)))
-	// 当tag数多于limit值时，不回tag进行切分
-	if len(tags) > limit {
-		tags = tags[:limit]
-	}
-	slog.Info("Get tag from es",
-		"image", image,
-		"tags", tags,
-		"err", err)
-
-	syncedTag := GetExitTags(image)
-	var _tags []string
-	for _, v := range tags {
-		if !slices.Contains(syncedTag, v) {
-			_tags = append(_tags, v)
-		}
-	}
-	tags = _tags
-
-	slog.Info("Get sync tag from gcr",
-		"image", image,
-		"tags", tags,
-		"err", err)
+	tags = slice.Difference(ParseVersion(tags, limit), GetExitTags(image))
+	slog.Info("Get sync tag from gcr", "image", image, "tags", tags, "err", err)
 	return
 }
 
@@ -248,27 +195,8 @@ func GetRepoTagFromQuay(image string, limit int) (tags []string, err error) {
 			tags = append(tags, v.Name)
 		}
 	}
-	sort.Sort(sort.Reverse(sort.StringSlice(tags)))
-	if len(tags) > limit {
-		tags = tags[:limit]
-	}
-	slog.Info("Get tag from quay.io",
-		"image", image,
-		"tags", tags,
-		"err", err)
-
-	syncedTag := GetExitTags(image)
-	var _tags []string
-	for _, v := range tags {
-		if !slices.Contains(syncedTag, v) {
-			_tags = append(_tags, v)
-		}
-	}
-	tags = _tags
-	slog.Info("Get sync tag from quay.io",
-		"image", image,
-		"tags", tags,
-		"err", err)
+	tags = slice.Difference(ParseVersion(tags, limit), GetExitTags(image))
+	slog.Info("Get sync tag from quay.io", "image", image, "tags", tags, "err", err)
 	return
 }
 
@@ -313,25 +241,8 @@ func GetRepoTagFromGHCR(image string, limit int) (tags []string, err error) {
 
 	}
 
-	sort.Sort(sort.Reverse(sort.StringSlice(tags)))
-	if len(tags) > limit {
-		tags = tags[:limit]
-	}
-	slog.Info("Get tag from ghcr.io", "image", image, "tags", tags)
-
-	syncedTag := GetExitTags(image)
-	var _tags []string
-	for _, v := range tags {
-		if !slices.Contains(syncedTag, v) {
-			_tags = append(_tags, v)
-		}
-	}
-	tags = _tags
-	slog.Info("Get sync tag from ghcr.io",
-		"image", image,
-		"tags", tags,
-		"err", err)
-
+	tags = slice.Difference(ParseVersion(tags, limit), GetExitTags(image))
+	slog.Info("Get sync tag from ghcr.io", "image", image, "tags", tags, "err", err)
 	return
 }
 
@@ -347,7 +258,6 @@ func GetRepoTags(repo, image string, limit int) (tags []string) {
 		tags, _ = GetRepoTagFromGHCR(image, limit)
 	case "docker.elastic.co":
 		tags, _ = GetRepoTagFromElastic(image, limit)
-
 	default:
 		// mcr.microsoft.com
 		// registry.k8s.io
@@ -530,7 +440,7 @@ func GetExitTags(image string) (tags []string) {
 		slog.Error("get exits tag from hub failed", "url", hubURL, "image", eImage, "err", err)
 
 	}
-	slog.Info("get exits tag from hub", "url", hubURL, "image", eImage, "tags", tags)
+	// slog.Info("get exits tag from hub", "url", hubURL, "image", eImage, "tags", tags)
 
 	return
 }
@@ -570,5 +480,26 @@ func RunCommandWithTimeout(timeout int, command string, args ...string) (stdout,
 	}
 	stdout = string(bytes.TrimSpace(stdoutBuf.Bytes())) // Remove \n
 	stderr = string(bytes.TrimSpace(stderrBuf.Bytes())) // Remove \n
+	return
+}
+
+func ParseVersion(versionsRaw []string, count int) (tags []string) {
+
+	vLen := len(versionsRaw)
+	if vLen == 0 {
+		return
+	}
+	versions := make([]*version.Version, vLen)
+	for i, raw := range versionsRaw {
+		v, _ := version.NewVersion(raw)
+		versions[i] = v
+	}
+	sort.Sort(version.Collection(versions))
+	if vLen > count {
+		versions = versions[vLen-count:]
+	}
+	for _, v := range versions {
+		tags = append(tags, v.String())
+	}
 	return
 }
