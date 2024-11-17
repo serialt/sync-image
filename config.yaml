@@ -1,7 +1,6 @@
-last: 20
-mcrLast: 2
 autoSyncfile: sync.yaml
 workDir: "./workdir"
+syncedDir: "./images"
 genSynced: false
 exclude:
   - 'alpha'

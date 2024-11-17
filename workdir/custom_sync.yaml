@@ -12,6 +12,9 @@ docker.io:
     sonatype/nexus3:
     - 3.74.0
     - 3.74.0-alpine
-
-
+registry.k8s.io:
+    images:
+        build-image/kube-cross:
+        - v1.31.0-go1.23.3-bullseye.0
+        - v1.32.0-go1.23.3-bullseye.0
 

@@ -29,9 +29,8 @@ MY_GITHUB_TOKEN=xxxx
 config.yaml
 
 ```yaml
-# 普通镜像同步个数
-last: 10  
 workDir: "./workdir"
+syncedDir: "./images"
 # tag中含有以下关键字不同步
 exclude:
   - 'alpha'

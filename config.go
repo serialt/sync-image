@@ -39,4 +39,5 @@ type Config struct {
 	WorkDir      string              `yaml:"workDir"`
 	GithubToken  string              `yaml:"githubToken"`
 	GenSynced    bool                `yaml:"genSynced"`
+	SyncedDir    string              `yaml:"syncedDir"`
 }

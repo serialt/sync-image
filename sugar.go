@@ -111,7 +111,7 @@ func GetOCITags(url, image string, limit int) (tags []string, err error) {
 		eImage = image
 	}
 	var eData []string
-	fData, err := os.ReadFile("images/" + eImage + ".json")
+	fData, err := os.ReadFile(config.SyncedDir + "/" + eImage + ".json")
 	if err == nil {
 		var rTag RepositoryTag
 		err = json.Unmarshal(fData, &rTag)
@@ -141,7 +141,7 @@ func GenerateDynamicConf() {
 			// tag := GetRepoTags(domain, i, config.Last)
 			var tag []string
 			if config.GenSynced {
-				GenSyncedImages(domain, i, "images")
+				GenSyncedImages(domain, i, config.SyncedDir)
 			} else {
 				tag, _ = GetOCITags(domain, i, config.Last)
 			}
