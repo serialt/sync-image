@@ -77,11 +77,11 @@ func isMatch(tag string) bool {
 }
 
 // isExcludeTag 排除tag
-func isExcludeTag(tag string) bool {
+func isExcludeTag(tag string, isExclude []string) bool {
 
 	lowerTag := strings.ToLower(tag)
 	// 如果tag包含被排除的字段，则直接返回true
-	for _, ex := range config.Exclude {
+	for _, ex := range isExclude {
 		if strings.Contains(lowerTag, ex) {
 			return true
 		}
@@ -96,7 +96,7 @@ func GetOCITags(url, image string, limit int) (tags []string, err error) {
 	allTags := GetTags(url, image)
 	for _, v := range allTags {
 		if isMatch(v) {
-			if !isExcludeTag(v) {
+			if !isExcludeTag(v, config.Exclude) {
 				tags = append(tags, v)
 			}
 		}
@@ -325,13 +325,34 @@ func GenSyncedImages(url, image string, dir string) {
 	} else {
 		eImage = image
 	}
-	listCMD := fmt.Sprintf("skopeo list-tags  docker://%v/%v > %v/%v.json", url, image, dir, eImage)
+	listCMD := fmt.Sprintf("skopeo list-tags  docker://%v/%v ", url, image)
 	slog.Info("run cmd", "cmd", listCMD)
-	_, err := RunCMD(listCMD)
+	result, err := RunCMD(listCMD)
 	if err != nil {
 		slog.Error("get tags by skopeo failed", "err", err)
 		return
 	}
 
+	var rTag RepositoryTag
+	err = json.Unmarshal([]byte(result), &rTag)
+	if err != nil {
+		slog.Error("json unmarshal failed", "err", err)
+		return
+	}
+	rTag.Repository = fmt.Sprintf("%v/%v", url, image)
+	var newTags []string
+	for _, v := range rTag.Tags {
+		if isMatch(v) {
+			if !isExcludeTag(v, config.Exclude) {
+				newTags = append(newTags, v)
+			}
+		}
+
+	}
+	rTag.Tags = newTags
+	jsonData, _ := json.Marshal(rTag)
+	slog.Info("get synced data", "data", string(jsonData))
+	tagFile := fmt.Sprintf("%v/%v.json", dir, eImage)
+	os.WriteFile(tagFile, jsonData, 0644)
 	return
 }
