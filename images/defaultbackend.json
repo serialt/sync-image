@@ -1,6 +1,6 @@
 {
-    "Repository": "registry.k8s.io/defaultbackend",
-    "Tags": [
+    "repository": "registry.k8s.io/defaultbackend",
+    "tags": [
         "1.0",
         "1.1",
         "1.2"

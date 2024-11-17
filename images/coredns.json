@@ -1,20 +1,6 @@
 {
-    "Repository": "registry.k8s.io/coredns/coredns",
-    "Tags": [
-        "sha256-017727efcfeb7d053af68e51436ce8e65edbc6ca573720afb4f79c8594036955.sig",
-        "sha256-1eeb4c7316bacb1d4c8ead65571cd92dd21e27359f0d4917f1a5822a73b75db1.sig",
-        "sha256-4190b960ea90e017631e3e1a38eea28e98e057ab60d57d47b3db6e5cf77436f7.sig",
-        "sha256-8e352a029d304ca7431c6507b56800636c321cb52289686a581ab70aaa8a2e2a.sig",
-        "sha256-9caabbf6238b189a65d0d6e6ac138de60d6a1c419e5a341fbbb7c78382559c6e.sig",
-        "sha256-a0ead06651cf580044aeb0a0feba63591858fb2e43ade8c9dea45a6a89ae7e5e.sig",
-        "sha256-b82e294de6be763f73ae71266c8f5466e7e03c69f3a1de96efd570284d35bb18.sig",
-        "sha256-cc3ebb05fbdba439d2d69813f162aa204b027098c8244fb3156e6e7c0f31c548.sig",
-        "v1.10.0",
-        "v1.10.1",
-        "v1.11.0",
-        "v1.11.1",
-        "v1.11.3",
-        "v1.11.4",
+    "repository": "registry.k8s.io/coredns/coredns",
+    "tags": [
         "v1.6.6",
         "v1.6.7",
         "v1.6.9",

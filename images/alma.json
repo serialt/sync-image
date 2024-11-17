@@ -1,10 +1,9 @@
 {
-    "Repository": "docker.io/serialt/alma",
-    "Tags": [
+    "repository": "docker.io/serialt/alma",
+    "tags": [
         "8",
         "8-sshd",
         "9",
-        "9-sshd",
-        "latest"
+        "9-sshd"
     ]
 }

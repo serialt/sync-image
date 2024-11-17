@@ -1,17 +1,6 @@
 {
-    "Repository": "registry.k8s.io/metrics-server/metrics-server",
-    "Tags": [
-        "sha256-1c0419326500f1704af580d12a579671b2c3a06a8aa918cd61d0a35fb2d6b3ce.sig",
-        "sha256-401a4b9796f3f80c1f03d22cd7b1a26839f515a36032ef49b682c237e5848ab3.sig",
-        "sha256-9f50dd170c1146f1da6a8bdf955c8aad35b4066097d847f94cd0377170d67d21.sig",
-        "sha256-c60778fa1c44d0c5a0c4530ebe83f9243ee6fc02f4c3dc59226c201931350b10.sig",
-        "sha256-d1df1816a44ed435b9df0c33f45f38dbd9d01251949111d25a6dc5e830a3fa95.sig",
-        "sha256-db3800085a0957083930c3932b17580eec652cfb6156a05c0f79c7543e80d17a.sig",
-        "sha256-df2c05ca55ab13b41ca5de65a1d087609e9c5051b8f89df7a5f5a1cd410d1227.sig",
-        "sha256-ede90bb0ade6e5c30185002ac22e61a3e3aac415747ff8cb081a6129f497742f.sig",
-        "sha256-ee4304963fb035239bb5c5e8c10f2f38ee80efc16ecbdb9feb7213c17ae2e86e.sig",
-        "sha256-f977ad859fb500c1302d9c3428c6271db031bb7431e7076213b676b345a88dc2.sig",
-        "sha256-ffcb2bf004d6aa0a17d90e0247cf94f2865c8901dcab4427034c341951c239f9.sig",
+    "repository": "registry.k8s.io/metrics-server/metrics-server",
+    "tags": [
         "v0.3.7",
         "v0.4.0",
         "v0.4.1",

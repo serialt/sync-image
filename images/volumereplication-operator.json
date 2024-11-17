@@ -1,7 +1,6 @@
 {
-    "Repository": "quay.io/csiaddons/volumereplication-operator",
-    "Tags": [
-        "latest",
+    "repository": "quay.io/csiaddons/volumereplication-operator",
+    "tags": [
         "v0.1.0",
         "v0.2.0"
     ]

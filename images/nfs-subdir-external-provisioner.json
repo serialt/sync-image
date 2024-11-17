@@ -1,8 +1,7 @@
 {
-    "Repository": "registry.k8s.io/sig-storage/nfs-subdir-external-provisioner",
-    "Tags": [
+    "repository": "registry.k8s.io/sig-storage/nfs-subdir-external-provisioner",
+    "tags": [
         "v4.0.0",
-        "v4.0.1",
-        "v4.0.2"
+        "v4.0.1"
     ]
 }

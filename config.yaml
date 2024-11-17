@@ -30,6 +30,7 @@ exclude:
   - 'dev'
   - 'test'
   - '.sig'
+  - 'canary'
 images:
   docker.elastic.co:
     - elasticsearch/elasticsearch
@@ -101,42 +102,42 @@ images:
   mcr.microsoft.com:
     - devcontainers/base
     - devcontainers/go
-  # docker.io:
-  #   - gitlab/gitlab-ce
-  #   - serialt/rocky
-  #   - serialt/alma
-  #   - bitnami/redis
-  #   - library/alpine
-  #   - library/debian
-  #   - library/ubuntu
-  #   - library/golang
-  #   - library/python
-  #   - library/node
-  #   - library/openjdk
-  #   - library/maven
-  #   - library/nginx 
-  #   - library/postgres
-  #   - library/busybox
-  #   - library/caddy
-  #   - bitnami/rabbitmq
-  #   - bitnami/redis
-  #   - grafana/grafana
-  #   - grafana/loki
-  #   - grafana/grafana-image-renderer
-  #   - grafana/promtail
-  #   - grafana/mimir
-  #   - grafana/tempo
-  #   - hashicorp/vault
-  #   - library/consul
-  #   - gitlab/gitlab-runner
-  #   - rancher/mirrored-metrics-server
-  #   - rancher/local-path-provisioner
-  #   - rancher/mirrored-coredns-coredns
-  #   - rancher/mirrored-pause
-  #   - sonatype/nexus3
-  #   - dpage/pgadmin4
-  #   - library/mysql
-  #   - library/memcached
-  #   - easysoft/zentao
-  #   - dbeaver/cloudbeaver
+  docker.io:
+    - gitlab/gitlab-ce
+    - serialt/rocky
+    - serialt/alma
+    - bitnami/redis
+    - library/alpine
+    - library/debian
+    - library/ubuntu
+    - library/golang
+    - library/python
+    - library/node
+    - library/openjdk
+    - library/maven
+    - library/nginx 
+    - library/postgres
+    - library/busybox
+    - library/caddy
+    - bitnami/rabbitmq
+    - bitnami/redis
+    - grafana/grafana
+    - grafana/loki
+    - grafana/grafana-image-renderer
+    - grafana/promtail
+    - grafana/mimir
+    - grafana/tempo
+    - hashicorp/vault
+    - library/consul
+    - gitlab/gitlab-runner
+    - rancher/mirrored-metrics-server
+    - rancher/local-path-provisioner
+    - rancher/mirrored-coredns-coredns
+    - rancher/mirrored-pause
+    - sonatype/nexus3
+    - dpage/pgadmin4
+    - library/mysql
+    - library/memcached
+    - easysoft/zentao
+    - dbeaver/cloudbeaver
 

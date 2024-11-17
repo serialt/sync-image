@@ -1,0 +1,8 @@
+{
+    "repository": "registry.k8s.io/defaultbackend-arm64",
+    "tags": [
+        "1.1",
+        "1.2",
+        "1.3"
+    ]
+}

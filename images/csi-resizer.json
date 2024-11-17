@@ -1,22 +1,6 @@
 {
-    "Repository": "registry.k8s.io/sig-storage/csi-resizer",
-    "Tags": [
-        "sha256-0ac756247c8c52936e637c41a3fab38dfb4389f38903168df5624b9564bf2e20.sig",
-        "sha256-2e2b44393539d744a55b9370b346e8ebd95a77573064f3f9a8caf18c22f4d0d0.sig",
-        "sha256-3a7bdf5d105783d05d0962fa06ca53032b01694556e633f27366201c2881e01d.sig",
-        "sha256-3c116f543f0590aeff3299c8bb0683f250817d11a77d9e9071b15a0bffdabcd9.sig",
-        "sha256-425d8f1b769398127767b06ed97ce62578a3179bcb99809ce93a1649e025ffe7.sig",
-        "sha256-4c148bbdf883153bc72d321be4dc55c33774a6d98b2b3e0c2da6ae389149a9b7.sig",
-        "sha256-4ecda2818f6d88a8f217babd459fdac31588f85581aa95ac7092bb0471ff8541.sig",
-        "sha256-522911ef68bd2c5c17d90fb2a6d2b2fb72ae790f2c1463a466b4262a07fdbf5a.sig",
-        "sha256-835f2deb8c024733d72ccf87a80d7cc2f3ce87b8235b08e43b2b1e93da03cef3.sig",
-        "sha256-8f7520bd957e7151fda9886eb5090739439811aeec5ddffb50ad7c8191548d97.sig",
-        "sha256-a541e6cc2d8b011bb21b1d4ffec6b090e85270cce6276ee302d86153eec0af43.sig",
-        "sha256-ab774734705a906561e15b67f6a96538f3ad520335d636f793aaafe87a3b5200.sig",
-        "sha256-bb84fef0dbd4c12345d35b4910a461a4564001ae4a2e33a7c8c4483f7e02478a.sig",
-        "sha256-be6a7de1d43dba90710b61bd3d0d8f568654a6adadaeea9188cf4cd3554cbb87.sig",
-        "sha256-e998f22243869416f9860fc6a1fb07d4202eac8846defc1b85ebd015c1207605.sig",
-        "sha256-f1f352df97874442624fcef23eab04aa038f66cb0e361212f6ec09e92998184d.sig",
+    "repository": "registry.k8s.io/sig-storage/csi-resizer",
+    "tags": [
         "v0.4.0",
         "v0.5.0",
         "v0.5.1",
@@ -26,9 +10,6 @@
         "v1.10.0",
         "v1.10.1",
         "v1.11.0",
-        "v1.11.1",
-        "v1.11.2",
-        "v1.12.0",
         "v1.2.0",
         "v1.3.0",
         "v1.4.0",
@@ -37,6 +18,10 @@
         "v1.7.0",
         "v1.8.0",
         "v1.8.1",
-        "v1.9.0"
+        "v1.9.0",
+        "v1.9.1",
+        "v1.9.2",
+        "v1.9.3",
+        "v1.9.4"
     ]
 }

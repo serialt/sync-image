@@ -1,26 +1,6 @@
 {
-    "Repository": "registry.k8s.io/sig-storage/csi-provisioner",
-    "Tags": [
-        "sha256-0b30fd123def2378f12b2ec3f981d019307ad0c2ac7065c7a6ca200103b2bae3.sig",
-        "sha256-10624570c0aceb03f55f1eb07147b0c537e4676869cca2e9bd4bab113f810ac4.sig",
-        "sha256-405a14e1aa702f7ea133cea459e8395fe40a6125c088c55569e696d48e1bd385.sig",
-        "sha256-49b94f975603d85a1820b72b1188e5b351d122011b3e5351f98c49d72719aa78.sig",
-        "sha256-4ad5fcdbe7e9147b541a863d74e4d1d519bf435ecda4c7bde5abe237a43f7029.sig",
-        "sha256-672e45d6a55678abc1d102de665b5cbd63848e75dc7896f238c8eaaf3c7d322f.sig",
-        "sha256-6de50bacfd72627ffe4209e3db8ad7391d04ea6fb741bf51feab6c5dcfd80002.sig",
-        "sha256-76f5b1c63bfbbe3d17819e675ca22ff7a7a74ccdbb509c0117c2133a63c5e950.sig",
-        "sha256-78d6f10bd10a674e23b177720e47b0bd1501c13758dfdedbf774966c3ff9ae9a.sig",
-        "sha256-7b9cdb5830d01bda96111b4f138dbddcc01eed2f95aa980a404c45a042d60a10.sig",
-        "sha256-8027dd89dfd93741e06afced6ab6d6862dcb2a4b21f90070ae5802f46a894534.sig",
-        "sha256-893e37a388e7a7463d6c3523311b28cfbc5ae536dbef35430eed272cdc6850dc.sig",
-        "sha256-91c874488fbca39c6787a19b3e686836c29abcf069304064dba6bb9c9befb6e1.sig",
-        "sha256-bc9425314f6f07189dc1c657202e8e4ea857da227fc8e5cb41b9b97e6886b461.sig",
-        "sha256-bf5a235b67d8aea00f5b8ec24d384a2480e1017d5458d8a63b361e9eeb1608a9.sig",
-        "sha256-d078dc174323407e8cc6f0f9abd4efaac5db27838f1564d0253d5e3233e3f17f.sig",
-        "sha256-de79c8bbc271622eb94d2ee8689f189ea7c1cb6adac260a421980fe5eed66708.sig",
-        "sha256-e468dddcd275163a042ab297b2d8c2aca50d5e148d2d22f3b6ba119e2f31fa79.sig",
-        "sha256-e7ad666f1d9b0caa077c7f0c157c9f87d1e73858390732496f66dcc716ff10c5.sig",
-        "sha256-ee3b525d5b89db99da3b8eb521d9cd90cb6e9ef0fbb651e98bb37be78d36b5b8.sig",
+    "repository": "registry.k8s.io/sig-storage/csi-provisioner",
+    "tags": [
         "v1.4.0",
         "v1.5.0",
         "v1.6.0",
@@ -53,6 +33,8 @@
         "v3.6.2",
         "v3.6.3",
         "v3.6.4",
-        "v4.0.0"
+        "v4.0.0",
+        "v4.0.1",
+        "v5.0.0"
     ]
 }

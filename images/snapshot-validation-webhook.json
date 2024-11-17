@@ -1,23 +1,6 @@
 {
-    "Repository": "registry.k8s.io/sig-storage/snapshot-validation-webhook",
-    "Tags": [
-        "sha256-09e2515cf3ab7efa8a046592f8ed8c49c316a519a9fa61c5c6efcdbe111e8afd.sig",
-        "sha256-18316ebc3ed7547008073a90d865760a6c5ae56a65fede6e8c9847ab2c3cf315.sig",
-        "sha256-2830dbe2cbe0ad50464a200e8d8c4a7c3a2addf6a1f66fe668d764d4b80ca9b2.sig",
-        "sha256-35fa940f062222dfa3257e0c74837a22c35976be899bab6103b433bab0e03a81.sig",
-        "sha256-398e914b144620615567750aebde00ef7f9cc44c113e1a1da855e1f6ebe4bd06.sig",
-        "sha256-4561bb8ac0e826cfecf5b2859ee50f7075916c772d4235bad528fc4be616a0cb.sig",
-        "sha256-4727228c504cd5b9799b9638deefb7711b2df0c10acc9c7f7219e7b0f7f8d6a5.sig",
-        "sha256-4b700837359df71cda01027c7c7d6c889ad8d17de113984f9be3eba4fe679e1f.sig",
-        "sha256-608381a36b48bfd4ad84c0d33c7b157386fe76431b18a2cd3dfddb022a438a38.sig",
-        "sha256-615938f2eaf52336c2ecb3028e5ecfedaa539307e14499da5a4b8c5cbd432750.sig",
-        "sha256-7f058f8b3faac68d93c0abf2b97532820ec8ffff944f5919ce7039506ca24cbd.sig",
-        "sha256-b5be1e04b7c43352f83e135bd772de05437f8f3a20cb9437875d1a0d4f127440.sig",
-        "sha256-c0940c685cfda669dfa45743d07960ef39fc64a871965f9f270cde1763c8331d.sig",
-        "sha256-cf0987b30811d7140846ea2c7793b8311bfbda6b77a34720fd0839f6013c356a.sig",
-        "sha256-d554a05bed85ae94bff384b4352c849b7034684f7da73ba8e6bf9f812dd8b53f.sig",
-        "sha256-e950fd7136bbe812b14b738f0725599204bdf2cda7e3f31d1912db4db4c9c174.sig",
-        "sha256-f7148fdc0442567422461539a3a357111639049d26eb6aed67661ea503957e79.sig",
+    "repository": "registry.k8s.io/sig-storage/snapshot-validation-webhook",
+    "tags": [
         "v3.0.0",
         "v3.0.2",
         "v3.0.3",
@@ -36,6 +19,12 @@
         "v6.2.2",
         "v6.2.3",
         "v6.3.0",
-        "v6.3.1"
+        "v6.3.1",
+        "v6.3.2",
+        "v6.3.3",
+        "v6.3.4",
+        "v7.0.0",
+        "v7.0.1",
+        "v7.0.2"
     ]
 }

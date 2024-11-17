@@ -1,9 +1,7 @@
 {
-    "Repository": "quay.io/prometheus/pushgateway",
-    "Tags": [
+    "repository": "quay.io/prometheus/pushgateway",
+    "tags": [
         "0.3.0",
-        "latest",
-        "master",
         "v0.10.0",
         "v0.3.1",
         "v0.4.0",
@@ -28,6 +26,8 @@
         "v1.4.3",
         "v1.5.0",
         "v1.5.1",
-        "v1.6.0"
+        "v1.6.0",
+        "v1.6.1",
+        "v1.6.2"
     ]
 }
