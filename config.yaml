@@ -103,8 +103,10 @@ images:
     - devcontainers/go
   docker.io:
     - gitlab/gitlab-ce
-    - serialt/rocky
-    - serialt/alma
+    # - serialt/rocky
+    # - serialt/alma
+    - library/almalinux
+    - rockylinux/rockylinux
     - bitnami/redis
     - library/alpine
     - library/debian

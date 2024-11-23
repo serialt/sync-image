@@ -13,7 +13,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/duke-git/lancet/v2/slice"
 	"github.com/hashicorp/go-version"
 	"github.com/serialt/crab"
 	"gopkg.in/yaml.v3"
@@ -120,8 +119,8 @@ func GetOCITags(url, image string, limit int) (tags []string, err error) {
 		}
 		eData = rTag.Tags
 	}
-	tags = slice.Difference(tags, eData)
-	tags = slice.Difference(tags, GetExitTags(image))
+	tags = crab.SliceDiff(tags, eData)
+	tags = crab.SliceDiff(tags, GetExitTags(image))
 	slog.Info("Get sync tag from oci", "host", url, "image", image, "tags", tags, "err", err)
 	return
 }
