@@ -1,7 +1,7 @@
 autoSyncfile: sync.yaml
 workDir: "./workdir"
 syncedDir: "./images"
-genSynced: false
+genSynced: true
 exclude:
   - 'alpha'
   - 'beta' 
@@ -30,6 +30,7 @@ exclude:
   - 'test'
   - '.sig'
   - 'canary'
+  - 'enterprise'
 images:
   docker.elastic.co:
     - elasticsearch/elasticsearch
@@ -141,4 +142,24 @@ images:
     - library/memcached
     - easysoft/zentao
     - dbeaver/cloudbeaver
-
+    - goharbor/harbor-exporter
+    - goharbor/redis-photon
+    - goharbor/trivy-adapter-photon
+    - goharbor/harbor-registryctl
+    - goharbor/registry-photon
+    - goharbor/nginx-photon
+    - goharbor/harbor-log
+    - goharbor/harbor-jobservice
+    - goharbor/harbor-core
+    - goharbor/harbor-portal
+    - goharbor/harbor-db
+    - goharbor/prepare
+    - semaphoreui/semaphore
+    - jenkins/jenkins
+    - serialt/vscode
+    - library/traefik
+    - library/mariadb
+    - library/sonarqube
+    - library/haproxy
+    - library/influxdb
+    - library/eclipse-mosquitto
