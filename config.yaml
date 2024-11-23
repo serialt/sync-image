@@ -1,7 +1,7 @@
 autoSyncfile: sync.yaml
 workDir: "./workdir"
 syncedDir: "./images"
-genSynced: true
+genSynced: false
 exclude:
   - 'alpha'
   - 'beta' 
