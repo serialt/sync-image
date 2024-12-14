@@ -163,3 +163,5 @@ images:
     - library/haproxy
     - library/influxdb
     - library/eclipse-mosquitto
+    - gitea/gitea
+    - gitea/act_runner
