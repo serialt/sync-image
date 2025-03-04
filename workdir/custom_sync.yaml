@@ -1,7 +1,3 @@
-ghcr.io:
-  images:
-    kube-vip/kube-vip:
-    - 'v0.6.0'
 docker.io:
   images:
     fyneio/fyne-cross-images:
