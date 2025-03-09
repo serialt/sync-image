@@ -74,30 +74,35 @@ func isMatch(tag string) bool {
 	match, _ := regexp.MatchString(`^(v\d+|\d+)[a-zA-Z0-9.-]*$`, tag)
 	return match
 }
-
-// isExcludeTag 排除tag
-func isExcludeTag(tag string, isExclude []string) bool {
-
-	lowerTag := strings.ToLower(tag)
-	// 如果tag包含被排除的字段，则直接返回true
-	for _, ex := range isExclude {
-		if strings.Contains(lowerTag, ex) {
-			return true
-		}
-	}
-
-	return false
-
+func isExcludeTag(tag string) bool {
+	match, _ := regexp.MatchString(config.Regexp, tag)
+	return match
 }
 
+// // isExcludeTag 排除tag
+// func isExcludeTag(tag string, isExclude []string) bool {
+
+// 	lowerTag := strings.ToLower(tag)
+// 	// 如果tag包含被排除的字段，则直接返回true
+// 	for _, ex := range isExclude {
+// 		if strings.Contains(lowerTag, ex) {
+// 			return true
+// 		}
+// 	}
+
+// 	return false
+
+// }
+
 // GetOCITags 获取 oci repo 最新的 tag
-func GetOCITags(url, image string, limit int) (tags []string, err error) {
+func GetOCITags(url, image string) (tags []string, err error) {
 	allTags := GetTags(url, image)
 	for _, v := range allTags {
-		if isMatch(v) {
-			if !isExcludeTag(v, config.Exclude) {
-				tags = append(tags, v)
-			}
+		if isMatch(v) && (!isExcludeTag(v)) {
+			tags = append(tags, v)
+			// if !isExcludeTag(v, config.Exclude) {
+			// 	tags = append(tags, v)
+			// }
 		}
 
 	}
@@ -142,7 +147,7 @@ func GenerateDynamicConf() {
 			if config.GenSynced {
 				GenSyncedImages(domain, i, config.SyncedDir)
 			} else {
-				tag, _ = GetOCITags(domain, i, config.Last)
+				tag, _ = GetOCITags(domain, i)
 			}
 			if len(tag) == 0 {
 				continue
@@ -341,10 +346,8 @@ func GenSyncedImages(url, image string, dir string) {
 	rTag.Repository = fmt.Sprintf("%v/%v", url, image)
 	var newTags []string
 	for _, v := range rTag.Tags {
-		if isMatch(v) {
-			if !isExcludeTag(v, config.Exclude) {
-				newTags = append(newTags, v)
-			}
+		if isMatch(v) && (!isExcludeTag(v)) {
+			newTags = append(newTags, v)
 		}
 
 	}

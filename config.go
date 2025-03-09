@@ -29,9 +29,7 @@ type DockerHub struct {
 }
 
 type Config struct {
-	Exclude      []string            `yaml:"exclude"`
-	Last         int                 `yaml:"last"`
-	McrLast      int                 `yaml:"mcrLast"`
+	// Exclude      []string            `yaml:"exclude"`
 	Images       map[string][]string `yaml:"images"`
 	AutoSyncfile string              `yaml:"autoSyncfile"`
 	DockerHub    []DockerHub         `yaml:"dockerHub"`
@@ -40,4 +38,5 @@ type Config struct {
 	GithubToken  string              `yaml:"githubToken"`
 	GenSynced    bool                `yaml:"genSynced"`
 	SyncedDir    string              `yaml:"syncedDir"`
+	Regexp       string              `yaml:"regexp"`
 }

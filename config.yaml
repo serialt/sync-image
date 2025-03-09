@@ -1,36 +1,8 @@
 autoSyncfile: sync.yaml
 workDir: "./workdir"
 syncedDir: "./images"
-genSynced: false
-exclude:
-  - 'alpha'
-  - 'beta' 
-  - 'rc' 
-  - 'amd64'
-  - 'ppc64le' 
-  - 'arm64' 
-  - 'arm' 
-  - 's390x'   
-  - 'SNAPSHOT' 
-  - 'snapshot'
-  - 'debug' 
-  - 'master' 
-  - 'latest' 
-  - 'main'
-  - 'sig'
-  - 'sha'
-  - 'mips'
-  - 'server'
-  - 'nanoserver'
-  - 'windows'
-  - 'build'
-  - 'HEAD'
-  - 'unstable'
-  - 'dev'
-  - 'test'
-  - '.sig'
-  - 'canary'
-  - 'enterprise'
+genSynced: true
+regexp: '(alpha|beta|rc|amd64|ppc64le|arm64|arm|s390x|SNAPSHOT|snapshot|debug|master|latest|main|sig|sha|mips|server|nanoserver|windows|build|HEAD|unstable|dev|test|\.sig|canary|enterprise)'
 images:
   docker.elastic.co:
     - elasticsearch/elasticsearch
