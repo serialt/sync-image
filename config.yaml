@@ -75,6 +75,7 @@ images:
     - devcontainers/base
     - devcontainers/go
   docker.io:
+    - kindest/node
     - gitlab/gitlab-ce
     - serialt/rocky
     - serialt/alma

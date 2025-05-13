@@ -25,6 +25,7 @@ tmp*
 cli*
 
 dist/
+sync-image
 
 *.sqlite
 
