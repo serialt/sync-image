@@ -1,7 +1,8 @@
 autoSyncfile: sync.yaml
 workDir: "./workdir"
 syncedDir: "./images"
-genSynced: true
+# 设置为true则只生成同步后的文件，正常同步应该设置为false
+genSynced: false
 regexp: '(alpha|beta|rc|amd64|ppc64le|arm64|arm|s390x|SNAPSHOT|snapshot|debug|master|latest|main|sig|sha|mips|server|nanoserver|windows|build|HEAD|unstable|dev|test|\.sig|canary|enterprise)'
 images:
   docker.elastic.co:
@@ -55,8 +56,6 @@ images:
     - sig-storage/nfsplugin
     - sig-storage/csi-attacher
     - sig-storage/livenessprobe
-    - defaultbackend-amd64
-    - defaultbackend-arm64
     - pause
     - etcd
     - kube-proxy

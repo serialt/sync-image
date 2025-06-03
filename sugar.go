@@ -21,6 +21,10 @@ import (
 func service() {
 
 	GenerateDynamicConf()
+	if config.GenSynced {
+		slog.Info("只生成已经同步的yaml")
+		return
+	}
 
 	files, err := crab.FileLoopFiles(config.WorkDir)
 	if err != nil {
@@ -126,7 +130,7 @@ func GetOCITags(url, image string) (tags []string, err error) {
 	}
 	tags = crab.SliceDiff(tags, eData)
 	tags = crab.SliceDiff(tags, GetExitTags(image))
-	slog.Info("Get sync tag from oci", "host", url, "image", image, "tags", tags, "err", err)
+	// slog.Info("Get sync tag from oci", "host", url, "image", image, "tags", tags, "err", err)
 	return
 }
 
@@ -353,7 +357,7 @@ func GenSyncedImages(url, image string, dir string) {
 	}
 	rTag.Tags = newTags
 	jsonData, _ := json.Marshal(rTag)
-	slog.Info("get synced data", "data", string(jsonData))
+	// slog.Info("get synced data", "data", string(jsonData))
 	tagFile := fmt.Sprintf("%v/%v.json", dir, eImage)
 	os.WriteFile(tagFile, jsonData, 0644)
 	return
