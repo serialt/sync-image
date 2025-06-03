@@ -1,5 +1,0 @@
-docker.io:
-    images:
-        library/alpine:
-            - "3.22"
-            - 3.22.0

@@ -1,10 +1,7 @@
 docker.io:
   images:
-    fyneio/fyne-cross-images:
-    - 'linux'
-    - 'android'
+    # fyneio/fyne-cross-images:
+    # - 'linux'
+    # - 'android'
     kindest/node:
     - 'v1.32.3'
-    - 'v1.30.10'
-    - 'v1.32.2'
-    - 'v1.31.6'
