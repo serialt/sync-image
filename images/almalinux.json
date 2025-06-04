@@ -2,7 +2,6 @@
     "repository": "docker.io/library/almalinux",
     "tags": [
         "10-kitten",
-        "10.0",
         "10.0-20250527",
         "8",
         "8-minimal",
