@@ -9,70 +9,75 @@
 # Description  	:       build go package
 #  
 # ******************************************************
+ 
+# ========================
+# Project Info
+# ========================
+PROJECT_NAME := sync-image
+APP_NAME     := $(PROJECT_NAME)
+DIST_DIR     := dist
 
+GOBASE      := $(shell pwd)
+GOFILES     := $(wildcard *.go)
 
-PROJECT_NAME= sync-image
+# ========================
+# Version & Build Info
+# ========================
+BRANCH      := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+BUILD_TIME  := $(shell date -u '+%Y-%m-%d %H:%M:%S UTC')
+GIT_HASH    := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+GO_VERSION  := $(shell go version | awk '{print $$3}')
+KEY         := wzFdVccccccccccccccc
 
+LDFLAGS := -s -w \
+	-X 'main.APPVersion=$(BRANCH)' \
+	-X 'main.GoVersion=$(GO_VERSION)' \
+	-X 'main.BuildTime=$(BUILD_TIME)' \
+	-X 'main.GitCommit=$(GIT_HASH)' \
+	-X 'main.AesKey=$(KEY)'
 
-GOBASE=$(shell pwd)
-GOFILES=$(wildcard *.go)
+PLATFORMS := \
+	linux/amd64 \
+	linux/arm64 
+# 	linux/riscv64 \
+	darwin/amd64 \
+	darwin/arm64 \
+	windows/amd64 \
+	windows/arm64
 
-
-BRANCH := $(shell git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3)
-# BRANCH := `git fetch --tags && git tag | sort -V | tail -1`
-# BUILD := $(shell git rev-parse --short HEAD)
-BUILD_DIR := $(GOBASE)/dist
-VERSION = $(BRANCH)
-
-BuildTime := $(shell date -u  '+%Y-%m-%d %H:%M:%S %Z')
-GitHash := $(shell git rev-parse HEAD)
-GoVersion = $(shell go version | cut -d " " -f 3 )
-Maintainer := ""
-KEY := ""
-
-PKGFLAGS := " -s -w -X 'main.APPVersion=$(VERSION)' -X 'main.GoVersion=$(GoVersion)'  -X 'main.BuildTime=$(BuildTime)' -X 'main.GitCommit=$(GitHash)' "
-
-APP_NAME = $(PROJECT_NAME)
-# go-pkg.v0.1.1-linux-amd64
+.PHONY: all
+all: build
 
 .PHONY: clean
 clean:
-	@-rm -rf dist/$(PROJECT_NAME)* 
+	@echo "Cleaning..."
+	@rm -rf $(DIST_DIR)
 
 .PHONY: serve
 serve:
+	@echo "Running locally..."
 	go run .
 
 .PHONY: build
 build: clean
-	@go build -trimpath -ldflags $(PKGFLAGS) -o "dist/$(APP_NAME)" 
-	@echo "\n******************************"
-	@echo "         build succeed "
-	@echo "******************************\n"
-	@ls -la dist/$(PROJECT_NAME)*
-	@echo
-
-.PHONY: build-linux
-build-linux: clean
-	@go mod tidy
-	@GOOS="linux"   GOARCH="amd64" go build -trimpath -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-amd64"       
-	@GOOS="linux"   GOARCH="arm64" go build -trimpath -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-arm64"    
-	@echo "\n******************************"
-	@echo "      build linux succeed "
-	@echo "******************************\n"
-	@ls -la dist/$(PROJECT_NAME)*
-	@echo
+	@mkdir -p $(DIST_DIR)
+	@echo "Building $(APP_NAME) for local OS..."
+	@go build -trimpath -ldflags "$(LDFLAGS)" -o $(DIST_DIR)/$(APP_NAME)
+	@echo "\n✅ Build succeeded:"
+	@ls -lh $(DIST_DIR)/$(APP_NAME)*
 
 .PHONY: release
 release: clean
+	@mkdir -p $(DIST_DIR)
 	@go mod tidy
-	@GOOS="windows" GOARCH="amd64" go build -trimpath -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-windows-amd64.exe" 
-	@GOOS="linux"   GOARCH="amd64" go build -trimpath -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-amd64"       
-	@GOOS="linux"   GOARCH="arm64" go build -trimpath -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-linux-arm64"       
-	@GOOS="darwin"  GOARCH="amd64" go build -trimpath -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-darwin-amd64"      
-	@GOOS="darwin"  GOARCH="arm64" go build -trimpath -ldflags $(PKGFLAGS) -v -o "dist/$(APP_NAME)-darwin-arm64"      
-	@echo "\n******************************"
-	@echo "        release succeed "
-	@echo "******************************\n"
-	@ls -la dist/$(PROJECT_NAME)*
-	@echo
+	@set -e; \
+	for plat in $(PLATFORMS); do \
+		OS=$${plat%/*}; \
+		ARCH=$${plat#*/}; \
+		EXE=$$( [ "$$OS" = "windows" ] && echo ".exe" || echo "" ); \
+		OUT=$(DIST_DIR)/$(APP_NAME)-$$OS-$$ARCH$$EXE; \
+		echo "🚀 Building $$OUT"; \
+		GOOS=$$OS GOARCH=$$ARCH go build -trimpath -ldflags "$(LDFLAGS)" -o $$OUT .; \
+	done
+	@echo "\n✅ Release build succeeded:"
+	@ls -lh $(DIST_DIR)/
