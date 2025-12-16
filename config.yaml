@@ -66,6 +66,9 @@ images:
     - build-image/kube-cross
   gcr.io:
     - kaniko-project/executor
+    - distroless/static
+    - distroless/static-debian13
+    - distroless/static-debian12
   ghcr.io:
     - k3d-io/k3d-tools
     - k3d-io/k3d-proxy
