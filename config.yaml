@@ -17,6 +17,9 @@ images:
     - beats/metricbeat
     - apm/apm-server
     - app-search/app-search
+    - istio/proxyv2
+    - istio/pilot
+    - istio/istioctl
   quay.io:
     - coreos/flannel
     - ceph/ceph
