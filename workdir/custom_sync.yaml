@@ -3,17 +3,17 @@ docker.io:
     # fyneio/fyne-cross-images:
     # - 'linux'
     # - 'android'
-    kindest/node:
-    - 'v1.32.3'
-gcr.io:
-  images:
-    distroless/static-debian12:
-    - 'latest',
-    - 'latest-amd64'
-    - 'latest-arm64'
-    - 'nonroot'
-    distroless/static-debian13:
-    - 'latest',
-    - 'latest-amd64'
-    - 'latest-arm64'
-    - 'nonroot'
+    # kindest/node:
+    # - 'v1.32.3'
+# gcr.io:
+#   images:
+#     distroless/static-debian12:
+#     - 'latest',
+#     - 'latest-amd64'
+#     - 'latest-arm64'
+#     - 'nonroot'
+#     distroless/static-debian13:
+#     - 'latest',
+#     - 'latest-amd64'
+#     - 'latest-arm64'
+#     - 'nonroot'
