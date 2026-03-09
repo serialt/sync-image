@@ -1,5 +1,7 @@
 docker.io:
   images:
+    istio/proxyv2:
+    - 1.19.5
     # fyneio/fyne-cross-images:
     # - 'linux'
     # - 'android'
