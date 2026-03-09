@@ -17,9 +17,6 @@ images:
     - beats/metricbeat
     - apm/apm-server
     - app-search/app-search
-    - istio/proxyv2
-    - istio/pilot
-    - istio/istioctl
   quay.io:
     - coreos/flannel
     - ceph/ceph
@@ -143,3 +140,6 @@ images:
     - library/eclipse-mosquitto
     - gitea/gitea
     - gitea/act_runner
+    - istio/proxyv2
+    - istio/pilot
+    - istio/istioctl
