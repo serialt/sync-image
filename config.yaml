@@ -8,4 +8,9 @@ images:
   docker.io:
     - istio/proxyv2
     - istio/pilot
-    - redis
+    - library/redis
+  quay.io:
+    - argoproj/argocd
+  ghcr.io:
+    - dexidp/dex
+    - oliver006/redis_exporter
