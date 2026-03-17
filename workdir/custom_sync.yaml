@@ -1,3 +1,5 @@
+quay.io:
+  argoproj/argocd:
 docker.io:
   images:
     # istio/proxyv2:
@@ -6,6 +8,7 @@ docker.io:
     # - 1.15.1
     library/redis:
     - 6.2.6-alpine
+    - 8.2.3-alpine
     # fyneio/fyne-cross-images:
     # - 'linux'
     # - 'android'
