@@ -8,3 +8,4 @@ images:
   docker.io:
     - istio/proxyv2
     - istio/pilot
+    - redis
