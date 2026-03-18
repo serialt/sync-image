@@ -73,6 +73,7 @@ images:
     - k3d-io/k3d-tools
     - k3d-io/k3d-proxy
     - kube-vip/kube-vip
+    - dexidp/dex
   mcr.microsoft.com:
     - devcontainers/base
     - devcontainers/go
@@ -83,7 +84,7 @@ images:
     - serialt/alma
     - library/almalinux
     - rockylinux/rockylinux
-    - bitnami/redis
+    - library/redis
     - library/alpine
     - library/debian
     - library/ubuntu
@@ -96,8 +97,8 @@ images:
     - library/postgres
     - library/busybox
     - library/caddy
-    - bitnami/rabbitmq
-    - bitnami/redis
+    - library/rabbitmq
+    - library/traefik
     - grafana/grafana
     - grafana/loki
     - grafana/grafana-image-renderer
