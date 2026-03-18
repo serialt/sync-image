@@ -13,4 +13,3 @@ images:
     - argoproj/argocd
   ghcr.io:
     - dexidp/dex
-    - oliver006/redis_exporter
