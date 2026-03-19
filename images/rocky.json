@@ -1,9 +1,1 @@
-{
-    "repository": "docker.io/serialt/rocky",
-    "tags": [
-        "8",
-        "8-sshd",
-        "9",
-        "9-sshd"
-    ]
-}
+{"repository":"docker.io/serialt/rocky","tags":["8","8-sshd","9","9-sshd"]}

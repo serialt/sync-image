@@ -3,6 +3,7 @@
     "tags": [
         "3",
         "3-adoptopenjdk",
+        "3-alpine",
         "3-ibmjava",
         "3-ibmjava-8",
         "3-ibmjava-9",
@@ -41,6 +42,7 @@
         "3-sapmachine-22",
         "3-sapmachine-23",
         "3-sapmachine-24",
+        "3-sapmachine-25",
         "3.2",
         "3.2-jdk-6",
         "3.2-jdk-7",
@@ -286,6 +288,7 @@
         "3.9.8",
         "3.9.8-ibmjava",
         "3.9.8-ibmjava-8",
+        "3.9.9",
         "3.9.9-ibmjava",
         "3.9.9-ibmjava-8"
     ]
