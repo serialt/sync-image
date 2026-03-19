@@ -98,48 +98,48 @@ images:
     # - library/caddy
     # - library/rabbitmq
     # - library/traefik
-    - grafana/grafana
-    - grafana/loki
-    - grafana/grafana-image-renderer
-    - grafana/promtail
-    - grafana/mimir
-    - grafana/tempo
-    - hashicorp/vault
-    - library/consul
-    - gitlab/gitlab-runner
-    - rancher/mirrored-metrics-server
-    - rancher/local-path-provisioner
-    - rancher/mirrored-coredns-coredns
-    - rancher/mirrored-pause
-    - sonatype/nexus3
-    - dpage/pgadmin4
-    - library/mysql
-    - library/memcached
-    - easysoft/zentao
-    - dbeaver/cloudbeaver
-    - goharbor/harbor-exporter
-    - goharbor/redis-photon
-    - goharbor/trivy-adapter-photon
-    - goharbor/harbor-registryctl
-    - goharbor/registry-photon
-    - goharbor/nginx-photon
-    - goharbor/harbor-log
-    - goharbor/harbor-jobservice
-    - goharbor/harbor-core
-    - goharbor/harbor-portal
-    - goharbor/harbor-db
-    - goharbor/prepare
-  #   - semaphoreui/semaphore
-  #   - jenkins/jenkins
-  #   - serialt/vscode
-  #   - library/traefik
-  #   - library/mariadb
-  #   - library/sonarqube
-  #   - library/haproxy
-  #   - library/influxdb
-  #   - library/eclipse-mosquitto
-  #   - gitea/gitea
-  #   - gitea/act_runner
-  #   - istio/proxyv2
-  #   - istio/pilot
-  #   - istio/istioctl
+    # - grafana/grafana
+    # - grafana/loki
+    # - grafana/grafana-image-renderer
+    # - grafana/promtail
+    # - grafana/mimir
+    # - grafana/tempo
+    # - hashicorp/vault
+    # - library/consul
+    # - gitlab/gitlab-runner
+    # - rancher/mirrored-metrics-server
+    # - rancher/local-path-provisioner
+    # - rancher/mirrored-coredns-coredns
+    # - rancher/mirrored-pause
+    # - sonatype/nexus3
+    # - dpage/pgadmin4
+    # - library/mysql
+    # - library/memcached
+    # - easysoft/zentao
+    # - dbeaver/cloudbeaver
+    # - goharbor/harbor-exporter
+    # - goharbor/redis-photon
+    # - goharbor/trivy-adapter-photon
+    # - goharbor/harbor-registryctl
+    # - goharbor/registry-photon
+    # - goharbor/nginx-photon
+    # - goharbor/harbor-log
+    # - goharbor/harbor-jobservice
+    # - goharbor/harbor-core
+    # - goharbor/harbor-portal
+    # - goharbor/harbor-db
+    # - goharbor/prepare
+    - semaphoreui/semaphore
+    - jenkins/jenkins
+    - serialt/vscode
+    - library/traefik
+    - library/mariadb
+    - library/sonarqube
+    - library/haproxy
+    - library/influxdb
+    - library/eclipse-mosquitto
+    - gitea/gitea
+    - gitea/act_runner
+    - istio/proxyv2
+    - istio/pilot
+    - istio/istioctl
