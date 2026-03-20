@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-version"
+	"github.com/samber/lo"
 	"github.com/serialt/crab"
 	"gopkg.in/yaml.v3"
 )
@@ -32,14 +33,15 @@ func service() {
 		os.Exit(5)
 	}
 	c := SyncClient{}
+	// 使用多个dockerhub账号用于同步，防止被限流
 	for _, iFile := range files {
 		for _, v := range config.Hub {
 			c.Next()
 			SkopeoSync(c.Hub, v.Username, v.Password, v.URL, iFile)
 		}
-
 	}
 
+	// 退出镜像仓库的登录
 	logoutHub := crab.SliceMerge(config.Hub, config.DockerHub)
 	for _, v := range logoutHub {
 		iCMD := fmt.Sprintf("skopeo logout %s ", v.URL)
@@ -78,6 +80,7 @@ func isMatch(tag string) bool {
 	match, _ := regexp.MatchString(`^(v\d+|\d+)[a-zA-Z0-9.-]*$`, tag)
 	return match
 }
+
 func isExcludeTag(tag string) bool {
 	match, _ := regexp.MatchString(config.Regexp, tag)
 	return match
@@ -139,7 +142,6 @@ func GenerateDynamicConf() {
 
 	// SkopeoData := make(map[string]map[string]map[string][]string)
 	for domain, v := range config.Images {
-
 		for _, i := range v {
 			SkopeoData := make(map[string]map[string]map[string][]string)
 			imagesM := make(map[string][]string)
@@ -157,24 +159,29 @@ func GenerateDynamicConf() {
 				continue
 			}
 
-			imagesM[i] = tag
-			imagesMap["images"] = imagesM
-			SkopeoData[domain] = imagesMap
+			// 拆分tag为多个文件,单个文件最多8个tag
+			tagChunk := lo.Chunk(tag, 8)
+			for idx, chunk := range tagChunk {
+				imagesM[i] = chunk
+				imagesMap["images"] = imagesM
+				SkopeoData[domain] = imagesMap
 
-			// 生成多个同步文件
-			SkopeoImageData := make(map[string]map[string]map[string][]string)
-			SkopeoImageData[domain] = imagesMap
-			data, err := yaml.Marshal(SkopeoImageData)
-			if err != nil {
-				slog.Error("yaml marshal failed", "err", err)
-				return
-			}
-			filenameSlice := strings.Split(i, "/")
-			filename := strings.Join(filenameSlice, "-")
+				// 生成多个同步文件
+				SkopeoImageData := make(map[string]map[string]map[string][]string)
+				SkopeoImageData[domain] = imagesMap
+				data, err := yaml.Marshal(SkopeoImageData)
+				if err != nil {
+					slog.Error("yaml marshal failed", "err", err)
+					return
+				}
+				filenameSlice := strings.Split(i, "/")
+				filenameSlice = append(filenameSlice, fmt.Sprint(idx))
+				filename := strings.Join(filenameSlice, "-")
 
-			err = os.WriteFile(config.WorkDir+"/"+filename+".yaml", data, 0644)
-			if err != nil {
-				slog.Error("Write auto sync data to file failed", "err", err)
+				err = os.WriteFile(config.WorkDir+"/"+filename+".yaml", data, 0644)
+				if err != nil {
+					slog.Error("Write auto sync data to file failed", "err", err)
+				}
 			}
 
 		}
@@ -204,9 +211,8 @@ func SkopeoSync(sHub DockerHub, username, password, url, skopeoFile string) {
 			return
 		}
 	}
-
+	slog.Info("run cmd", "cmd", iCMD)
 	result, err := RunCMD(iCMD)
-
 	if err != nil {
 		slog.Error("login failed", "url", url, "file", skopeoFile, "err", err)
 		fmt.Println(result)
@@ -215,7 +221,7 @@ func SkopeoSync(sHub DockerHub, username, password, url, skopeoFile string) {
 	slog.Info("login hub", "url", url, "user", username)
 	fmt.Println(result)
 
-	destHub := url + "/" + username
+	destHub := fmt.Sprintf("%v/%v", url, username)
 	iCMD = fmt.Sprintf("skopeo --insecure-policy sync -a  --src yaml --dest docker %s %s", skopeoFile, destHub)
 
 	result, err = RunCMD(iCMD)
@@ -227,7 +233,6 @@ func SkopeoSync(sHub DockerHub, username, password, url, skopeoFile string) {
 	slog.Info("skopeo sync succeed", "url", url, "user", username, "file", skopeoFile)
 	fmt.Println(result)
 
-	return
 }
 
 type RepositoryTag struct {
@@ -360,5 +365,4 @@ func GenSyncedImages(url, image string, dir string) {
 	// slog.Info("get synced data", "data", string(jsonData))
 	tagFile := fmt.Sprintf("%v/%v.json", dir, eImage)
 	os.WriteFile(tagFile, jsonData, 0644)
-	return
 }
