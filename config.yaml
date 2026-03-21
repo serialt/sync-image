@@ -17,29 +17,50 @@ images:
   #   - beats/metricbeat
   #   - apm/apm-server
   #   - app-search/app-search
-  # quay.io:
-  #   - coreos/flannel
-  #   - ceph/ceph
-  #   - cephcsi/cephcsi
-  #   - csiaddons/k8s-sidecar
-  #   - csiaddons/volumereplication-operator
-  #   - prometheus/prometheus
-  #   - prometheus/alertmanager
-  #   - prometheus/pushgateway
-  #   - prometheus/blackbox-exporter
-  #   - prometheus/node-exporter
-  #   - prometheus-operator/prometheus-config-reloader
-  #   - prometheus-operator/prometheus-operator
-  #   - brancz/kube-rbac-proxy
-  #   - jetstack/cert-manager-webhook
-  #   - jetstack/cert-manager-controller
-  #   - jetstack/cert-manager-cainjector
+  quay.io:
+    - coreos/flannel
+    - ceph/ceph
+    - cephcsi/cephcsi
+    - csiaddons/k8s-sidecar
+    - csiaddons/volumereplication-operator
+    - prometheus/prometheus
+    - prometheus/alertmanager
+    - prometheus/pushgateway
+    - prometheus/blackbox-exporter
+    - prometheus/node-exporter
+    - prometheus/haproxy-exporter
+    - prometheus/snmp-exporter
+    - prometheus/cloudwatch-exporter
+    - prometheus/graphite-exporter
+    - prometheus/consul-exporter
+    - prometheus/influxdb-exporter
+    - prometheus-operator/prometheus-config-reloader
+    - prometheus-operator/prometheus-operator
+    - prometheus/mysqld-exporter
+    - brancz/kube-rbac-proxy
+    - jetstack/cert-manager-webhook
+    - jetstack/cert-manager-controller
+    - jetstack/cert-manager-cainjector
+    - metallb/speaker
+    - metallb/controller
+    - metallb/metallb-operator
+    - calico/node
+    - calico/kube-controllers
+    - calico/csi
+    - calico/apiserver
+    - argoproj/argoexec
+    - argoproj/workflow-controller
+    - argoproj/argocli
+    - argoproj/argo-rollouts
+    - argoproj/kubectl-argo-rollouts
+    - prometheuscommunity/postgres-exporter
+    - prometheuscommunity/elasticsearch-exporter
   # k8s.gcr.io:
-    # - conformance
-    # - dns/k8s-dns-node-cache
-    # - metrics-server/metrics-server
-    # - kube-state-metrics/kube-state-metrics
-    # - prometheus-adapter/prometheus-adapter
+  #   - conformance
+  #   - dns/k8s-dns-node-cache
+  #   - metrics-server/metrics-server
+  #   - kube-state-metrics/kube-state-metrics
+  #   - prometheus-adapter/prometheus-adapter
   # registry.k8s.io:
   #   - sig-storage/local-volume-provisioner
   #   - metrics-server/metrics-server
@@ -77,69 +98,70 @@ images:
   # mcr.microsoft.com:
   #   - devcontainers/base
   #   - devcontainers/go
-  docker.io:
-    # - gitlab/gitlab-ce
-    # - serialt/rocky
-    # - serialt/alma
-    # - library/almalinux
-    # - rockylinux/rockylinux
-    # - library/redis
-    # - library/alpine
-    # - library/debian
-    # - library/ubuntu
-    # - library/golang
-    # - library/python
-    # - library/node
-    # - library/openjdk
-    # - library/maven
-    # - library/nginx 
-    # - library/postgres
-    # - library/busybox
-    # - library/caddy
-    # - library/rabbitmq
-    # - library/traefik
-    # - grafana/grafana
-    # - grafana/loki
-    # - grafana/grafana-image-renderer
-    # - grafana/promtail
-    # - grafana/mimir
-    # - grafana/tempo
-    # - hashicorp/vault
-    # - library/consul
-    # - gitlab/gitlab-runner
-    # - rancher/mirrored-metrics-server
-    # - rancher/local-path-provisioner
-    # - rancher/mirrored-coredns-coredns
-    # - rancher/mirrored-pause
-    # - sonatype/nexus3
-    # - dpage/pgadmin4
-    # - library/mysql
-    # - library/memcached
-    # - easysoft/zentao
-    # - dbeaver/cloudbeaver
-    # - goharbor/harbor-exporter
-    # - goharbor/redis-photon
-    # - goharbor/trivy-adapter-photon
-    # - goharbor/harbor-registryctl
-    # - goharbor/registry-photon
-    # - goharbor/nginx-photon
-    # - goharbor/harbor-log
-    # - goharbor/harbor-jobservice
-    # - goharbor/harbor-core
-    # - goharbor/harbor-portal
-    # - goharbor/harbor-db
-    # - goharbor/prepare
-    - semaphoreui/semaphore
-    - jenkins/jenkins
-    - serialt/vscode
-    - library/traefik
-    - library/mariadb
-    - library/sonarqube
-    - library/haproxy
-    - library/influxdb
-    - library/eclipse-mosquitto
-    - gitea/gitea
-    - gitea/act_runner
-    - istio/proxyv2
-    - istio/pilot
-    - istio/istioctl
+  # docker.io:
+  #   - kindest/node
+  #   - gitlab/gitlab-ce
+  #   - serialt/rocky
+  #   - serialt/alma
+  #   - library/almalinux
+  #   - rockylinux/rockylinux
+  #   - library/redis
+  #   - library/alpine
+  #   - library/debian
+  #   - library/ubuntu
+  #   - library/golang
+  #   - library/python
+  #   - library/node
+  #   - library/openjdk
+  #   - library/maven
+  #   - library/nginx 
+  #   - library/postgres
+  #   - library/busybox
+  #   - library/caddy
+  #   - library/rabbitmq
+  #   - library/traefik
+  #   - grafana/grafana
+  #   - grafana/loki
+  #   - grafana/grafana-image-renderer
+  #   - grafana/promtail
+  #   - grafana/mimir
+  #   - grafana/tempo
+  #   - hashicorp/vault
+  #   - library/consul
+  #   - gitlab/gitlab-runner
+  #   - rancher/mirrored-metrics-server
+  #   - rancher/local-path-provisioner
+  #   - rancher/mirrored-coredns-coredns
+  #   - rancher/mirrored-pause
+  #   - sonatype/nexus3
+  #   - dpage/pgadmin4
+  #   - library/mysql
+  #   - library/memcached
+  #   - easysoft/zentao
+  #   - dbeaver/cloudbeaver
+  #   - goharbor/harbor-exporter
+  #   - goharbor/redis-photon
+  #   - goharbor/trivy-adapter-photon
+  #   - goharbor/harbor-registryctl
+  #   - goharbor/registry-photon
+  #   - goharbor/nginx-photon
+  #   - goharbor/harbor-log
+  #   - goharbor/harbor-jobservice
+  #   - goharbor/harbor-core
+  #   - goharbor/harbor-portal
+  #   - goharbor/harbor-db
+  #   - goharbor/prepare
+  #   - semaphoreui/semaphore
+  #   - jenkins/jenkins
+  #   - serialt/vscode
+  #   - library/traefik
+  #   - library/mariadb
+  #   - library/sonarqube
+  #   - library/haproxy
+  #   - library/influxdb
+  #   - library/eclipse-mosquitto
+  #   - gitea/gitea
+  #   - gitea/act_runner
+  #   - istio/proxyv2
+  #   - istio/pilot
+  #   - istio/istioctl

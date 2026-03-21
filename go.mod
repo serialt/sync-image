@@ -1,6 +1,6 @@
 module github.com/serialt/sync-image
 
-go 1.25
+go 1.26.1
 
 require (
 	github.com/hashicorp/go-version v1.7.0

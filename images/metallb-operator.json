@@ -1,0 +1,10 @@
+{
+    "repository": "quay.io/metallb/metallb-operator",
+    "tags": [
+        "v0.10",
+        "v0.10.2",
+        "v0.12",
+        "v0.12.0",
+        "v0.12.1"
+    ]
+}
