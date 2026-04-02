@@ -25,8 +25,9 @@ on:
       - mcr
       - docker
       - docker2
-  schedule:
-    - cron: "0 9 */3 * *"
+      - dev
+  # schedule:
+  #   - cron: "0 9 */3 * *"
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
