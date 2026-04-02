@@ -5,3 +5,7 @@ docker.io:
     # - 'android'
     kindest/node:
     - 'v1.32.3'
+    dyclouds/opshub-api:
+    - latest
+    dyclouds/opshub-web:
+    - latest
