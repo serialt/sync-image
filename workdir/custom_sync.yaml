@@ -5,7 +5,10 @@ docker.io:
     # - 'android'
     kindest/node:
     - 'v1.32.3'
-    dyclouds/opshub-api:
-    - latest
-    dyclouds/opshub-web:
-    - latest
+    confluentinc/cp-kafka:
+    - '7.7.8'
+
+ghcr.io:
+  images:
+    kafbat/kafka-ui:
+    - 'v1.4.2'
