@@ -3,12 +3,15 @@ docker.io:
     # fyneio/fyne-cross-images:
     # - 'linux'
     # - 'android'
-    kindest/node:
-    - 'v1.32.3'
-    confluentinc/cp-kafka:
-    - '7.7.8'
+    # kindest/node:
+    # - 'v1.32.3'
+    # confluentinc/cp-kafka:
+    # - '7.7.8'
+    clickhouse/clickhouse-server:
+    - '26.3-alpine'
 
-ghcr.io:
-  images:
-    kafbat/kafka-ui:
-    - 'v1.4.2'
+
+# ghcr.io:
+#   images:
+#     kafbat/kafka-ui:
+#     - 'v1.4.2'
