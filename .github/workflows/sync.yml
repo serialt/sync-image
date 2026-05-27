@@ -16,7 +16,6 @@ name: sync
 on:
   push:
     branches:
-    branches:
       - master
       - main
       - ghcr
