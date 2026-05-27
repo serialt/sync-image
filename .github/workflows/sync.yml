@@ -16,8 +16,16 @@ name: sync
 on:
   push:
     branches:
+    branches:
       - master
       - main
+      - ghcr
+      - quay
+      - k8s
+      - gcr
+      - mcr
+      - docker
+      - docker2
   schedule:
     - cron: "0 3 */3 * *"
   # Allows you to run this workflow manually from the Actions tab
