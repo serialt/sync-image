@@ -9,8 +9,6 @@ var (
 	GitCommit  = "xxxxxxxxxxx"
 	ConfigFile = "config.yaml"
 	config     *Config
-
-	tmpDockerToken string
 )
 
 type SyncClient struct {
@@ -39,4 +37,5 @@ type Config struct {
 	GenSynced    bool                `yaml:"genSynced"`
 	SyncedDir    string              `yaml:"syncedDir"`
 	Regexp       string              `yaml:"regexp"`
+	Count        int64               `yaml:"count"`
 }

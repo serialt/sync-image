@@ -44,6 +44,9 @@ func init() {
 			})
 		}
 	}
+	if config.Count == 0 {
+		config.Count = 5
+	}
 
 }
 func main() {

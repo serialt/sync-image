@@ -83,30 +83,12 @@ func isExcludeTag(tag string) bool {
 	return match
 }
 
-// // isExcludeTag 排除tag
-// func isExcludeTag(tag string, isExclude []string) bool {
-
-// 	lowerTag := strings.ToLower(tag)
-// 	// 如果tag包含被排除的字段，则直接返回true
-// 	for _, ex := range isExclude {
-// 		if strings.Contains(lowerTag, ex) {
-// 			return true
-// 		}
-// 	}
-
-// 	return false
-
-// }
-
 // GetOCITags 获取 oci repo 最新的 tag
 func GetOCITags(url, image string) (tags []string, err error) {
 	allTags := GetTags(url, image)
 	for _, v := range allTags {
 		if isMatch(v) && (!isExcludeTag(v)) {
 			tags = append(tags, v)
-			// if !isExcludeTag(v, config.Exclude) {
-			// 	tags = append(tags, v)
-			// }
 		}
 
 	}
@@ -131,6 +113,7 @@ func GetOCITags(url, image string) (tags []string, err error) {
 	tags = crab.SliceDiff(tags, eData)
 	tags = crab.SliceDiff(tags, GetExitTags(image))
 	// slog.Info("Get sync tag from oci", "host", url, "image", image, "tags", tags, "err", err)
+	tags = ParseVersion(tags, int(config.Count))
 	return
 }
 
@@ -251,6 +234,7 @@ func GetTags(url, image string) (tags []string) {
 		return
 	}
 	tags = rTag.Tags
+	// ParseVersion
 	return
 }
 
@@ -264,7 +248,7 @@ func GetExitTags(image string) (tags []string) {
 		eImage = image
 	}
 
-	return GetTags(config.Hub[0].URL, config.Hub[0].Username+"/"+eImage)
+	return GetTags("registry.cn-hangzhou.aliyuncs.com", "serialt"+"/"+eImage)
 }
 
 func RunCMD(str string, workDir ...string) (string, error) {
@@ -305,10 +289,13 @@ func RunCommandWithTimeout(timeout int, command string, args ...string) (stdout,
 	return
 }
 
-func ParseVersion(versions []string, count int) (tags []string) {
+func ParseVersion(versions []string, count int) []string {
 	vLen := len(versions)
 	if vLen == 0 {
-		return
+		return versions
+	}
+	if vLen <= count {
+		return versions
 	}
 	versionsGo := make([]*version.Version, len(versions))
 	for i, raw := range versions {
@@ -316,11 +303,8 @@ func ParseVersion(versions []string, count int) (tags []string) {
 		versionsGo[i] = v
 	}
 	sort.Sort(version.Collection(versionsGo))
-	// if vLen > count {
-	// 	versions = versions[vLen-count:]
-	// }
-
-	return
+	versions = versions[vLen-count:]
+	return versions
 }
 
 func GenSyncedImages(url, image string, dir string) {
@@ -360,5 +344,4 @@ func GenSyncedImages(url, image string, dir string) {
 	// slog.Info("get synced data", "data", string(jsonData))
 	tagFile := fmt.Sprintf("%v/%v.json", dir, eImage)
 	os.WriteFile(tagFile, jsonData, 0644)
-	return
 }
