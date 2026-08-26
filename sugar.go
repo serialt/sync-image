@@ -199,7 +199,7 @@ func SkopeoSync(sHub DockerHub, username, password, url, skopeoFile string) {
 	fmt.Println(result)
 
 	destHub := url + "/" + username
-	iCMD = fmt.Sprintf("skopeo --insecure-policy sync --override-os linux --override-arch amd64 --src yaml --dest docker %s %s", skopeoFile, destHub)
+	iCMD = fmt.Sprintf("skopeo --insecure-policy sync --format v2s2 --src yaml --dest docker %s %s", skopeoFile, destHub)
 
 	result, err = RunCMD(iCMD)
 	if err != nil {
