@@ -8,4 +8,4 @@ images:
   docker.io:
     - library/alpine
     - gitea/gitea
-    - gitea/act_runner
+    - gitea/runner
