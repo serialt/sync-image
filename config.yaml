@@ -106,8 +106,8 @@ images:
     - rancher/local-path-provisioner
     - rancher/mirrored-coredns-coredns
     - rancher/mirrored-pause
-    - sonatype/nexus3
-    - dpage/pgadmin4
+    # - sonatype/nexus3
+    # - dpage/pgadmin4
     - library/mysql
     - library/memcached
     - easysoft/zentao
@@ -124,13 +124,13 @@ images:
     - goharbor/harbor-portal
     - goharbor/harbor-db
     - goharbor/prepare
-    - semaphoreui/semaphore
-    - jenkins/jenkins
-    - serialt/vscode
-    - library/sonarqube
-    - library/influxdb
-    - library/eclipse-mosquitto
+    # - semaphoreui/semaphore
+    # - jenkins/jenkins
+    # - serialt/vscode
+    # - library/sonarqube
+    # - library/influxdb
+    # - library/eclipse-mosquitto
     - gitea/gitea
-    - gitea/act_runner
+    - gitea/runner
     - istio/proxyv2
     - istio/pilot

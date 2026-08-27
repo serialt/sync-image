@@ -5,6 +5,3 @@ docker.io:
     # - 'android'
     kindest/node:
     - 'v1.32.3'
-    harness/harness:
-    - 3.3.0
-    - 3.2.0
