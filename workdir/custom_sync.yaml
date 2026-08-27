@@ -7,4 +7,3 @@ docker.io:
     # - 'v1.32.3'
     harness/harness:
     - 3.3.0
-    - 3.2.0
