@@ -7,6 +7,7 @@ regexp: '(alpha|beta|rc|amd64|ppc64le|arm64|arm|s390x|SNAPSHOT|snapshot|debug|ma
 images:
   docker.io:
     - library/alpine
+    - eniz1806/vaults3
   #   - grafana/alloy
   #   - grafana/grafana
   #   - grafana/loki

@@ -5,10 +5,5 @@ docker.io:
     # - 'android'
     # kindest/node:
     # - 'v1.32.3'
-    grafana/alloy:
-    - v1.19.2
-    kiwigrid/k8s-sidecar:
-    - 2.5.0
-    grafana/loki:
-    - 3.6.12
-    
+    eniz1806/vaults3:
+    - 4.4.75
