@@ -10,7 +10,6 @@ images:
     - eniz1806/vaults3
   ghcr.io:
     - authelia/authelia
-    - zitadel/zitadel
   #   - grafana/alloy
   #   - grafana/grafana
   #   - grafana/loki
