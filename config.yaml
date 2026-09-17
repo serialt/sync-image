@@ -8,6 +8,8 @@ images:
   docker.io:
     - library/alpine
     - eniz1806/vaults3
+  ghcr.io:
+    - kite-org/kite
   #   - grafana/alloy
   #   - grafana/grafana
   #   - grafana/loki
