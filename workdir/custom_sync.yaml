@@ -7,3 +7,7 @@ docker.io:
     # - 'v1.32.3'
     eniz1806/vaults3:
     - 4.4.75
+    cloudtty/cloudshell:
+    - v0.5.0
+    cloudtty/cloudshell-operator:
+    - v0.5.0
