@@ -17,7 +17,8 @@ images:
   #   - beats/metricbeat
   #   - apm/apm-server
   #   - app-search/app-search
-  # quay.io:
+  quay.io:
+    - argoproj/argocd
   #   - coreos/flannel
   #   - ceph/ceph
   #   - cephcsi/cephcsi
@@ -69,11 +70,11 @@ images:
   #   - distroless/static
   #   - distroless/static-debian13
   #   - distroless/static-debian12
-  # ghcr.io:
+  ghcr.io:
   #   - k3d-io/k3d-tools
   #   - k3d-io/k3d-proxy
   #   - kube-vip/kube-vip
-  #   - dexidp/dex
+    - dexidp/dex
   # mcr.microsoft.com:
   #   - devcontainers/base
   #   - devcontainers/go
@@ -83,7 +84,7 @@ images:
     # - serialt/alma
     # - library/almalinux
     # - rockylinux/rockylinux
-    # - library/redis
+    - library/redis
     # - library/alpine
     # - library/debian
     # - library/ubuntu
