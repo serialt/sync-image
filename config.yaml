@@ -10,6 +10,8 @@ images:
     - eniz1806/vaults3
   ghcr.io:
     - authelia/authelia
+    - cloudtty/cloudshell
+    - cloudtty/cloudshell-operator
   #   - grafana/alloy
   #   - grafana/grafana
   #   - grafana/loki
