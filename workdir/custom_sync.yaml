@@ -5,9 +5,7 @@ docker.io:
     # - 'android'
     # kindest/node:
     # - 'v1.32.3'
-    eniz1806/vaults3:
-    - 4.4.75
-    cloudtty/cloudshell:
-    - v0.5.0
-    cloudtty/cloudshell-operator:
-    - v0.5.0
+    kasmweb/alpine-323-desktop
+    - 1.18.0
+    kasmweb/core-alpine-323
+    - 1.18.0
