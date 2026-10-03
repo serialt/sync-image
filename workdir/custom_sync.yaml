@@ -6,6 +6,6 @@ docker.io:
     # kindest/node:
     # - 'v1.32.3'
     kasmweb/alpine-323-desktop:
-    - 1.18.0
+    - 1.19.0
     kasmweb/core-alpine-323:
-    - 1.18.0
+    - 1.19.0
