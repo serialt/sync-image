@@ -8,7 +8,8 @@ images:
   docker.io:
     - library/alpine
     - eniz1806/vaults3
-  # ghcr.io:
+  ghcr.io:
+    - yogasw/beo-echo
     # - authelia/authelia
     # - cloudtty/cloudshell
     # - cloudtty/cloudshell-operator
