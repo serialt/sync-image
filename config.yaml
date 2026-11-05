@@ -9,6 +9,7 @@ images:
     - library/alpine
     - library/nats
     # - eniz1806/vaults3
+    - awneesh/strikemq
   ghcr.io:
     - perber/leafwiki
     # - yogasw/beo-echo
