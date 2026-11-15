@@ -9,7 +9,10 @@ images:
     - library/alpine
     - library/nats
     # - eniz1806/vaults3
-    - awneesh/strikemq
+    - prom/prometheus
+    - grafana/loki
+    - grafana/grafana
+    - grafana/alloy
   ghcr.io:
     - perber/leafwiki
     # - yogasw/beo-echo
