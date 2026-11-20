@@ -24,13 +24,13 @@ images:
   #   - cephcsi/cephcsi
   #   - csiaddons/k8s-sidecar
   #   - csiaddons/volumereplication-operator
-  #   - prometheus/prometheus
-  #   - prometheus/alertmanager
-  #   - prometheus/pushgateway
-  #   - prometheus/blackbox-exporter
-  #   - prometheus/node-exporter
-  #   - prometheus-operator/prometheus-config-reloader
-  #   - prometheus-operator/prometheus-operator
+    - prometheus/prometheus
+    - prometheus/alertmanager
+    - prometheus/pushgateway
+    - prometheus/blackbox-exporter
+    - prometheus/node-exporter
+    - prometheus-operator/prometheus-config-reloader
+    - prometheus-operator/prometheus-operator
   #   - brancz/kube-rbac-proxy
   #   - jetstack/cert-manager-webhook
   #   - jetstack/cert-manager-controller
@@ -73,7 +73,7 @@ images:
   ghcr.io:
   #   - k3d-io/k3d-tools
   #   - k3d-io/k3d-proxy
-  #   - kube-vip/kube-vip
+    - kube-vip/kube-vip
     - dexidp/dex
   # mcr.microsoft.com:
   #   - devcontainers/base
@@ -85,26 +85,28 @@ images:
     # - library/almalinux
     # - rockylinux/rockylinux
     - library/redis
-    # - library/alpine
+    - pgsty/silo
+    - library/alpine
     # - library/debian
     # - library/ubuntu
-    # - library/golang
-    # - library/python
-    # - library/node
-    # - library/openjdk
+    - library/golang
+    - library/python
+    - library/node
+    - library/openjdk
     # - library/maven
-    # - library/nginx 
-    # - library/postgres
-    # - library/busybox
-    # - library/caddy
-    # - library/rabbitmq
-    # - library/traefik
+    - library/nginx 
+    - library/postgres
+    - library/busybox
+    - library/caddy
+    - library/rabbitmq
+    - library/traefik
     - grafana/grafana
     - grafana/loki
     - grafana/grafana-image-renderer
     - grafana/promtail
     - grafana/mimir
     - grafana/tempo
+    - grafana/alloy
     - hashicorp/vault
     - library/consul
     - gitlab/gitlab-runner
@@ -133,13 +135,12 @@ images:
   #   - semaphoreui/semaphore
   #   - jenkins/jenkins
   #   - serialt/vscode
-  #   - library/traefik
   #   - library/mariadb
   #   - library/sonarqube
   #   - library/haproxy
   #   - library/influxdb
   #   - library/eclipse-mosquitto
-  #   - gitea/gitea
+    - gitea/gitea
   #   - gitea/act_runner
   #   - istio/proxyv2
   #   - istio/pilot
