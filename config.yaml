@@ -18,6 +18,7 @@ images:
   #   - apm/apm-server
   #   - app-search/app-search
   quay.io:
+    - argoproj/argocd
     - coreos/flannel
     - ceph/ceph
     - cephcsi/cephcsi
@@ -74,9 +75,13 @@ images:
     - k3d-io/k3d-proxy
     - kube-vip/kube-vip
     - dexidp/dex
+    - project-zot/zot
   docker.io:
-    - library/almalinux
+    # - gitlab/gitlab-ce
+    - gitlab/gitlab-runner
     - rockylinux/rockylinux
+    - pgsty/silo
+    - library/almalinux
     - library/redis
     - library/alpine
     - library/debian
@@ -99,9 +104,9 @@ images:
     - grafana/promtail
     - grafana/mimir
     - grafana/tempo
+    - grafana/alloy
     - hashicorp/vault
-    - library/consul
-    - gitlab/gitlab-runner
+    - hashicorp/consul
     - rancher/mirrored-metrics-server
     - rancher/local-path-provisioner
     - rancher/mirrored-coredns-coredns

@@ -16,15 +16,7 @@ name: sync
 on:
   push:
     branches:
-      - master
       - main
-      - ghcr
-      - quay
-      - k8s
-      - gcr
-      - mcr
-      - docker
-      - docker2
   schedule:
     - cron: "0 2,14 * * *"
   # Allows you to run this workflow manually from the Actions tab
@@ -44,7 +36,7 @@ jobs:
         cache: true
     - name: Install dependencies
       run: |
-        export version=v1.17.0 && export  arch=amd64 && sudo wget https://github.com/serialt/skopeo/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && sudo chmod +x /usr/bin/skopeo
+        export version=v1.24.1 && export  arch=amd64 && sudo wget https://github.com/serialt/skopeo/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && sudo chmod +x /usr/bin/skopeo
         skopeo --version
         go mod tidy
         go install .
