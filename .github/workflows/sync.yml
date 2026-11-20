@@ -36,7 +36,7 @@ jobs:
         cache: true
     - name: Install dependencies
       run: |
-        export version=v1.24.1 && export  arch=amd64 && sudo wget https://github.com/serialt/skopeo/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && sudo chmod +x /usr/bin/skopeo
+        export version=v1.25.2 && export  arch=amd64 && sudo wget https://github.com/serialt/skopeo/releases/download/${version}/skopeo-linux-${arch} -O /usr/bin/skopeo && sudo chmod +x /usr/bin/skopeo
         skopeo --version
         go mod tidy
         go install .
