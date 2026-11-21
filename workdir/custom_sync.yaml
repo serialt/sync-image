@@ -1,5 +1,7 @@
-# docker.io:
-#   images:
+docker.io:
+  images:
+    grafana/alloy:
+    - v1.22.0
 #     # fyneio/fyne-cross-images:
 #     # - 'linux'
 #     # - 'android'
@@ -9,7 +11,7 @@
 #     - 1.19.0
 #     kasmweb/core-alpine-323:
 #     - 1.19.0
-ghcr.io:
-  images:
-    krabt/openvpn_exporter:
-    - v0.4.0
+# ghcr.io:
+#   images:
+#     krabt/openvpn_exporter:
+#     - v0.4.0
