@@ -109,6 +109,9 @@ images:
     - hashicorp/consul
     - rancher/mirrored-metrics-server
     - rancher/local-path-provisioner
+    - rancher/mirrored-library-traefik
+    - rancher/klipper-helm
+    - rancher/klipper-lb
     - rancher/mirrored-coredns-coredns
     - rancher/mirrored-pause
     # - sonatype/nexus3
