@@ -2,11 +2,13 @@ docker.io:
   images:
     grafana/alloy:
     - v1.22.0
-    pgsty/silo:
-    - RELEASE.2026-10-26T00-00-00Z
-    - RELEASE.2026-11-12T00-00-00Z-distroless
-    - RELEASE.2026-11-12T00-00-00Z
-    - RELEASE.2026-11-09T00-00-00Z
+    # pgsty/silo:
+    # - RELEASE.2026-10-26T00-00-00Z
+    # - RELEASE.2026-11-12T00-00-00Z-distroless
+    # - RELEASE.2026-11-12T00-00-00Z
+    # - RELEASE.2026-11-09T00-00-00Z
+    rancher/mirrored-library-traefik:
+    - 3.7.15
 #     # fyneio/fyne-cross-images:
 #     # - 'linux'
 #     # - 'android'
