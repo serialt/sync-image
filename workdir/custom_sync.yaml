@@ -20,5 +20,5 @@ docker.io:
 #     - 1.19.0
   ghcr.io:
     images:
-      cloudnative-pg/cloudnative-pg:
-      - 1.30.2
+      cloudnative-pg/postgresql:
+      - 18.7-system-trixie
