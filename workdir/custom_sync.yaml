@@ -1,7 +1,7 @@
 docker.io:
   images:
-    grafana/alloy:
-    - v1.22.0
+    # grafana/alloy:
+    # - v1.22.0
     # pgsty/silo:
     # - RELEASE.2026-10-26T00-00-00Z
     # - RELEASE.2026-11-12T00-00-00Z-distroless
@@ -18,7 +18,7 @@ docker.io:
 #     - 1.19.0
 #     kasmweb/core-alpine-323:
 #     - 1.19.0
-# ghcr.io:
-#   images:
-#     krabt/openvpn_exporter:
-#     - v0.4.0
+  ghcr.io:
+    images:
+      cloudnative-pg/cloudnative-pg:
+      - 1.30.2
