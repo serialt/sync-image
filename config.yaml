@@ -74,6 +74,7 @@ images:
     - k3d-io/k3d-tools
     - k3d-io/k3d-proxy
     - kube-vip/kube-vip
+    - kube-vip/kube-vip-iptables
     - dexidp/dex
     - project-zot/zot
   docker.io:
